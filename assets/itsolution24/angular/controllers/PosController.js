@@ -315,6 +315,7 @@ window.angularApp.controller("PosController", [
             } else {
                 $scope.discountAmount = parseFloat($scope.discountInput);
             }
+            //$scope.discountAmount = parseFloat($('#discount-input')).html();
         };
         $scope._calcTaxAmount = function () {
             if ($scope.taxInput < 0 || $scope.taxInput > 100) {
@@ -610,12 +611,27 @@ window.angularApp.controller("PosController", [
                                 item.sell_discount = 0;
                                 item.discount_amount = 0;
                                 item.subTotal = (parseFloat(response.data.sell_price) * qty) + additonalTaxAmount;
-                            }
-
-                            $scope.totalQuantity = $scope.totalQuantity + qty;
-                            $scope.totalAmount = $scope.totalAmount + (parseFloat(response.data.sell_price) * qty) - item.discount_amount + additonalTaxAmount;
+                            } 
                             $scope.itemArray.push(item);
+
+                            
+
+                            // $scope.totalQuantity = $scope.totalQuantity + qty;
+                            // $scope.totalAmount = $scope.totalAmount + (parseFloat(response.data.sell_price) * qty) - item.discount_amount + additonalTaxAmount;
+                            // $scope.itemArray.push(item);
                         }
+                        var total_discount = 0;
+                            var total_price = 0;
+                            var total_qty =0;
+                            for (let i = 0; i < $scope.itemArray.length; i++) {
+                                total_qty +=$scope.itemArray[i].quantity; 
+                                total_discount += $scope.itemArray[i].discount_amount;
+                                total_price += $scope.itemArray[i].subTotal;
+                            }
+                            $scope.totalDiscount = total_discount;
+                            $scope.totalQuantity = total_qty;
+                            $scope.totalAmount = total_price;
+
                         $scope.totalItem = window._.size($scope.itemArray);
                         $scope._calcTotalPayable();
                         $scope.productName = '';
@@ -714,20 +730,22 @@ window.angularApp.controller("PosController", [
                                 item.price = item.sell_price;
                                 // item.discount = item.sell_discount;
                                 $scope.totalAmount = $scope.totalAmount;
-                                $("#item_discount_" + id).val(0);
+                                discount_amount = (price * quantity) * (discount / 100);
+                                item.item.discount_amount = discount_amount;
+                                //$("#item_discount_" + id).html(0);
                                 $("#item_unit_id_" + id).val(item.unit_id_small);
                                 $scope.totalQuantity = (total_quantity - quantity) + 1;
                                 // console.log(item.discount);
-                                var total_discount = 0;
-                                var total_price = 0;
+                                // var total_discount = 0;
+                                // var total_price = 0;
 
-                                var i;
-                                for (i = 0; i < $scope.itemArray.length; i++) {
-                                    total_discount += parseInt($("#item_discount_" + $scope.itemArray[i].id).val());
-                                    //total_price += parseInt($("#price_" + $scope.itemArray[i].id).html()) * $("#item_quantity_" + $scope.itemArray[i].id).val();
-                                    //total_price += parseFloat($('$subTotal_' + $scope.itemArray[i].id).html());
-                                    alert(total_price);
-                                }
+                                // var i;
+                                // for (i = 0; i < $scope.itemArray.length; i++) {
+                                //     total_discount += parseInt($("#item_discount_" + $scope.itemArray[i].id).val());
+                                //     //total_price += parseInt($("#price_" + $scope.itemArray[i].id).html()) * $("#item_quantity_" + $scope.itemArray[i].id).val();
+                                //     //total_price += parseFloat($('$subTotal_' + $scope.itemArray[i].id).html());
+                                //     // alert(total_price);
+                                // }
 
                                 $scope.totalAmount = parseFloat(total_price - total_discount);
                                 return false;
@@ -741,15 +759,14 @@ window.angularApp.controller("PosController", [
                             item.subTotal = (price * quantity) - discount_amount;
 
                             //alert('jumlah data : ' + $scope.itemArray.length);
-                            console.log($scope.itemArray);
                             var total_discount = 0;
                             var total_price = 0;
                             for (let i = 0; i < $scope.itemArray.length; i++) {
                                 total_discount += $scope.itemArray[i].discount_amount;
                                 total_price += $scope.itemArray[i].subTotal;
                             }
-
-                            $scope.totalAmount = parseInt(total_price);
+                            $scope.discountTotal = total_discount;
+                            $scope.totalAmount = total_price;
                         }
 
                     });
@@ -846,9 +863,8 @@ window.angularApp.controller("PosController", [
             let discount = $("#discount_" + id).html();
             let discount_amount = 0;
             let decrease_amount = 0;
-
-            console.log(discount);
             var qty = parseFloat(qty);
+
             if (!qty) {
                 qty = 1;
             }
@@ -871,23 +887,35 @@ window.angularApp.controller("PosController", [
                                     item.discount_amount = discount_amount;
                                     decrease_amount = (parseFloat(price) * qty) - discount_amount
                                     item.subTotal = item.subTotal - decrease_amount;
-                                    alert('calculate discount');
                                 } else {
-                                    alert('nodiscount');
-                                    item.subTotal = item.subTotal - (parseFloat(price) * item.quantity);
+                                    decrease_amount = parseFloat(price) * qty;
+                                    // alert('decrease amount');
+                                    item.subTotal = parseFloat(price) * item.quantity;
                                 }
 
-                                alert(decrease_amount);
+                                
+                                // $scope.totalQuantity = $scope.totalQuantity - qty;
+                                // $scope.totalAmount = $scope.totalAmount - decrease_amount;
 
-                                // item.subTotal = (parseFloat(price) * item.quantity) + taxamount;
-                                $scope.totalQuantity = $scope.totalQuantity - qty;
-                                $scope.totalAmount = $scope.totalAmount - decrease_amount;
                             } else {
                                 if (window.store.sound_effect == 1) {
                                     window.storeApp.playSound("error.mp3");
                                 }
                                 window.toastr.error("Quantity can't be less than 1", "Warning!");
                             }
+                            console.log(itemArray);
+                            var total_discount = 0;
+                                var total_price = 0;
+                                var total_qty =0;
+                                for (let i = 0; i < $scope.itemArray.length; i++) {
+                                    total_qty +=$scope.itemArray[i].quantity; 
+                                    total_discount += $scope.itemArray[i].discount_amount;
+                                    total_price += $scope.itemArray[i].subTotal;
+                                }
+
+                                $scope.totalQuantity = total_qty;
+                                $scope.totalDiscount = total_discount;
+                                $scope.totalAmount = total_price;
                         }
                     });
                 }
