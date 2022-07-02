@@ -72,7 +72,7 @@ window.angularApp.controller("ProductController", [
             ],
             "columnDefs": [
                 { "targets": [0, 1, 18, 19, 20], "orderable": false },
-                { "className": "text-center", "targets": [0, 1, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20] },
+                { "className": "text-center", "targets": [0, 1, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21] },
                 { "className": "text-right", "targets": [6, 7] },
                 { "visible": false, "targets": hideColumsArray },
                 {
@@ -195,6 +195,12 @@ window.angularApp.controller("ProductController", [
                         $(td).attr('data-title', $("#product-product-list thead tr th:eq(20)").html());
                     }
                 },
+                {
+                    "targets": [21],
+                    'createdCell': function (td, cellData, rowData, row, col) {
+                        $(td).attr('data-title', $("#product-product-list thead tr th:eq(21)").html());
+                    }
+                },
             ],
             "aoColumns": [
                 { data: "select" },
@@ -205,6 +211,7 @@ window.angularApp.controller("ProductController", [
                 { data: "quantity_in_stock" },
                 { data: "purchase_price" },
                 { data: "box_name" },
+                { data: "quantity_conv" },
                 { data: "UOM_Large" },
                 { data: "Volume_Unit_Large" },
                 { data: "Selling_Price_Large" },
