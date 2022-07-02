@@ -416,11 +416,14 @@ if ($order_printer_ids) {
 												<th style="width:25%">
 													<center><?php echo trans('label_product'); ?></center>
 												</th>
-												<th style="width:20%;">
+												<th style="width:10%;">
 													<center><?php echo trans('label_price'); ?></center>
 												</th>
 												<th style="width:15%;">
-													<center><?php echo trans('label_discount'); ?></center>
+													<center><?php echo trans('label_%'); ?></center>
+												</th>
+												<th style="width:5%;">
+													<center><?php echo trans('label_dis'); ?></center>
 												</th>
 												<th style="width:15%;">
 													<center><?php echo trans('label_subtotal'); ?></center>
@@ -458,10 +461,10 @@ if ($order_printer_ids) {
 															</div>
 														</center>
 													</td>
-													<td class="product-name" style="width : 25%">
+													<td class="product-name" style="width : 35%">
 														<span>{{ items.name }}</span>
 													</td>
-													<td class="product-price" style="width : 20%;">
+													<td class="product-price" style="width : 10%;">
 														<center>
 															<?php if (get_preference('change_item_price_while_billing') == 1) : ?>
 																<input type="text" class="text-center item_price" id="item_price_{{ items.id }}" name="item_price_{{ items.id }}" value="{{ items.price }}" data-itemid="{{ items.id }}" onClick="this.select();" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" style="max-width:60px;padding:5px;border-radius: 20px;border:2px solid #ddd;">
@@ -470,9 +473,13 @@ if ($order_printer_ids) {
 															<?php endif; ?>
 														</center>
 													</td>
+													<td class="product-name" style="width : 5%">
+														<span id="discount_{{items.id}}">{{ items.sell_discount }}</span>
+													</td>
 													<td class="product-discount" style="width : 15%">
 														<center>
-															<input ng-keyup="discountItemToInvoice(items.id)" ng-blur="defaultDiscount(items.id)" type="number" name="item_discount_{{ items.id }}" class="item_discount text-center" id="item_discount_{{ items.id }}" value="{{ items.discount | number }}" ondrop="return false;" onpaste="return false;" style="width:50px;max-width:50px;border-radius: 50px;border: 1px solid #ddd;padding-top:0;padding-bottom:0;">
+															<input ng-keyup="discountItemToInvoice(items.id)" type="number" name="item_discount_{{ items.id }}" class="item_discount text-center" disabled id="item_discount_{{ items.id }}" value="{{ items.discount_amount }}" data-itemid="{{ items.id }}" ondrop="return false;" onpaste="return false;" style="width:50px;max-width:50px;border-radius: 50px;border: 1px solid #ddd;padding-top:0;padding-bottom:0;">
+															<!-- <input ng-keyup="discountItemToInvoice(items.id)" ng-blur="defaultDiscount(items.id)" type="number" name="item_discount_{{ items.id }}" class="item_discount text-center" id="item_discount_{{ items.id }}" value="" data-itemid="{{ items.id }}" ondrop="return false;" onpaste="return false;" style="width:50px;max-width:50px;border-radius: 50px;border: 1px solid #ddd;padding-top:0;padding-bottom:0;"> -->
 														</center>
 													</td>
 													<td class="product-subtotal" style="width:15%;">

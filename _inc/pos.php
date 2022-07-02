@@ -127,6 +127,7 @@ if ($request->server['REQUEST_METHOD'] == 'GET' && isset($request->get['action_t
 		$product['sell_price'] = $product['sell_price'];
 		$product['sell_price_medium'] = $product['sell_price_medium'];
 		$product['sell_price_large'] = $product['sell_price_large'];
+		$product['sell_discount'] = $product['sell_discount'];
 
 		echo json_encode($product);
 		exit();
