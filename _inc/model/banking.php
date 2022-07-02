@@ -59,6 +59,26 @@ class ModelBanking extends Model
 			WHERE `bank_transaction_info`.`store_id` = ? AND `bank_transaction_info`.`transaction_type` = ? ORDER BY `bank_transaction_info`.`created_at` DESC LIMIT $limit");
 		$statement->execute(array($store_id, $type));
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
+		
+	}
+
+	public function getPurchase($store_id = null, $limit = 10)
+	{
+		$store_id = $store_id ? $store_id : store_id();
+
+		$statement = $this->db->prepare("SELECT  * FROM purchase_item where store_id = :store_id LIMIT $limit");
+		$statement->execute(array(':store_id' => $store_id));
+		return $statement->fetchAll(PDO::FETCH_ASSOC);																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	
+	}
+
+	function get_asset_amount($store_id = null, $limit = 10)
+	{
+		$store_id = $store_id ? $store_id : store_id();
+
+		$statement = $this->db->prepare("SELECT  sum(item_total) AS asset FROM purchase_item where store_id = :store_id LIMIT $limit");
+		$statement->execute(array(':store_id' => $store_id));
+		$total = $statement->fetchAll(PDO::FETCH_ASSOC);
+		return $total['0']['asset'];		
 	}
 
 	public function getTransactionInfo($ref_no, $store_id = null) 
