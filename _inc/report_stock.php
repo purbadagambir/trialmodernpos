@@ -40,7 +40,9 @@ $table = "(SELECT products.p_id, products.p_name, p2s.store_id, p2s.sup_id, p2s.
   coalesce(floor((p2s.quantity_in_stock-floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)/products.vol_unit_medium),0)   as vol_medium,
   case when coalesce(floor(p2s.quantity_in_stock/products.vol_unit_large),0) = 0 and coalesce(floor((p2s.quantity_in_stock-floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)/products.vol_unit_medium),0) = 0 and coalesce(p2s.quantity_in_stock-((floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)+(floor((p2s.quantity_in_stock-floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)/products.vol_unit_medium)*products.vol_unit_medium)),0) = 0 then p2s.quantity_in_stock else
   coalesce(p2s.quantity_in_stock-((floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)+(floor((p2s.quantity_in_stock-floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)/products.vol_unit_medium)*products.vol_unit_medium)),0) end as vol_small,
-  A.unit_name as uom_medium,B.unit_name as uom_large,C.unit_name as uom_small
+  coalesce(A.unit_name,'NONE') as uom_medium,
+  coalesce(B.unit_name,'NONE') as uom_large,
+  coalesce(C.unit_name,'NONE') as uom_small
   FROM products 
   LEFT JOIN product_to_store p2s ON (products.p_id = p2s.product_id)
   LEFT JOIN units A ON (products.unit_id_medium  = A.unit_id) 
