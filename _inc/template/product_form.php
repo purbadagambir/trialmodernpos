@@ -2,22 +2,23 @@
   <?php echo trans('text_update_title'); ?>
 </h4>
 
-<?php $tab_active = isset($request->get['tab']) ? $request->get['tab'] : 'general';?>
+<?php $tab_active = isset($request->get['tab']) ? $request->get['tab'] : 'general'; ?>
 
 <style type="text/css">
-.image-thumbnail {
-  position: relative;
-  width: 80px;
-  height: 75px;
-  overflow: hidden;
-  display: inline-block;
-}
-.image-thumbnail img {
+  .image-thumbnail {
+    position: relative;
+    width: 80px;
+    height: 75px;
+    overflow: hidden;
+    display: inline-block;
+  }
+
+  .image-thumbnail img {
     position: relative;
     width: 100%;
     height: auto;
     max-height: 100%;
-}
+  }
 </style>
 <form id="product-update-form" class="form-horizontal" action="product.php" method="post">
   <input type="hidden" id="action_type" name="action_type" value="UPDATE">
@@ -25,13 +26,13 @@
   <div class="xbox-body">
     <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
-        <li class="<?php echo $tab_active == 'general' ? 'active' : null;?>">
-            <a href="#general" data-toggle="tab" aria-expanded="false">
+        <li class="<?php echo $tab_active == 'general' ? 'active' : null; ?>">
+          <a href="#general" data-toggle="tab" aria-expanded="false">
             <?php echo trans('text_general'); ?>
           </a>
         </li>
-        <li class="<?php echo $tab_active == 'image' ? 'active' : null;?>">
-            <a href="#image" data-toggle="tab" aria-expanded="false">
+        <li class="<?php echo $tab_active == 'image' ? 'active' : null; ?>">
+          <a href="#image" data-toggle="tab" aria-expanded="false">
             <?php echo trans('text_images'); ?>
           </a>
         </li>
@@ -39,16 +40,16 @@
       <div class="tab-content">
 
         <!-- Image Start -->
-        <div class="tab-pane<?php echo $tab_active == 'image' ? ' active' : null;?>" id="image">
+        <div class="tab-pane<?php echo $tab_active == 'image' ? ' active' : null; ?>" id="image">
 
           <table class="table table-bordered table-condenced table-striped">
             <thead>
               <tr class="bg-gray">
-                <td class="w-10 text-center"><?php echo trans('label_serial_no');?></td>
-                <td class="w-20 text-center"><?php echo trans('label_image');?></td>
-                <td class="w-40"><?php echo trans('label_url');?></td>
-                <td class="w-20 text-center"><?php echo trans('label_sort_order');?></td>
-                <td class="w-10 text-center"><?php echo trans('label_action');?></td>
+                <td class="w-10 text-center"><?php echo trans('label_serial_no'); ?></td>
+                <td class="w-20 text-center"><?php echo trans('label_image'); ?></td>
+                <td class="w-40"><?php echo trans('label_url'); ?></td>
+                <td class="w-20 text-center"><?php echo trans('label_sort_order'); ?></td>
+                <td class="w-10 text-center"><?php echo trans('label_action'); ?></td>
               </tr>
             </thead>
             <tbody>
@@ -57,7 +58,7 @@
                 <td class="text-center">
                   <div class="image-thumbnail">
                     <a class="open-filemanager" data-imageid="{{img.id}}" data-toggle="image" id="thumb{{img.id}}" href="#">
-                      <img ng-show="img.url" ng-src="<?php echo FILEMANAGERURL;?>{{ img.url }}">
+                      <img ng-show="img.url" ng-src="<?php echo FILEMANAGERURL; ?>{{ img.url }}">
                       <img ng-show="!img.url" src="../assets/itsolution24/img/noimage.jpg">
                     </a>
                   </div>
@@ -79,13 +80,13 @@
               </tr>
             </tbody>
           </table>
-          
+
         </div>
         <!-- Image End -->
 
 
         <!-- General Start -->
-        <div class="tab-pane<?php echo $tab_active == 'general' ? ' active' : null;?>" id="general">
+        <div class="tab-pane<?php echo $tab_active == 'general' ? ' active' : null; ?>" id="general">
 
           <div class="form-group">
             <label class="col-sm-3 control-label">
@@ -94,8 +95,8 @@
             <div class="col-sm-2">
               <div class="preview-thumbnail">
                 <a ng-click="POSFilemanagerModal({target:'product_image',thumb:'product_thumbnail'})" onClick="return false;" href="" data-toggle="image" id="product_thumbnail">
-                  <?php if (isset($product['p_image']) && ((FILEMANAGERPATH && is_file(FILEMANAGERPATH.$product['p_image']) && file_exists(FILEMANAGERPATH.$product['p_image'])) || (is_file(DIR_STORAGE . 'products' . $product['p_image']) && file_exists(DIR_STORAGE . 'products' . $product['p_image'])))) : ?>
-                    <img  src="<?php echo FILEMANAGERURL ? FILEMANAGERURL : root_url().'/storage/products'; ?>/<?php echo $product['p_image']; ?>">
+                  <?php if (isset($product['p_image']) && ((FILEMANAGERPATH && is_file(FILEMANAGERPATH . $product['p_image']) && file_exists(FILEMANAGERPATH . $product['p_image'])) || (is_file(DIR_STORAGE . 'products' . $product['p_image']) && file_exists(DIR_STORAGE . 'products' . $product['p_image'])))) : ?>
+                    <img src="<?php echo FILEMANAGERURL ? FILEMANAGERURL : root_url() . '/storage/products'; ?>/<?php echo $product['p_image']; ?>">
                   <?php else : ?>
                     <img src="../assets/itsolution24/img/noimage.jpg">
                   <?php endif; ?>
@@ -110,7 +111,7 @@
               <?php echo trans('label_product_type'); ?><i class="required">*</i>
             </label>
             <div class="col-sm-8">
-              <select id="p_type" class="form-control" name="p_type" >
+              <select id="p_type" class="form-control" name="p_type">
                 <option value="standard" <?php echo $product['p_type'] == 'standard' ? 'selected' : null; ?>><?php echo trans('text_standard'); ?></option>
                 <option value="service" <?php echo $product['p_type'] == 'service' ? 'selected' : null; ?>><?php echo trans('text_service'); ?></option>
               </select>
@@ -119,7 +120,7 @@
 
           <div class="form-group">
             <label for="p_name" class="col-sm-3 control-label">
-              <?php echo sprintf(trans('label_name'),null); ?><i class="required">*</i>
+              <?php echo sprintf(trans('label_name'), null); ?><i class="required">*</i>
             </label>
             <div class="col-sm-8">
               <input type="text" class="form-control" id="p_name" name="p_name" value="<?php echo $product['p_name']; ?>" required>
@@ -129,8 +130,8 @@
           <div class="form-group all">
             <label for="p_code" class="col-sm-3 control-label">
               <?php echo trans('label_pcode'); ?> <i class="required">*</i>
-            </label>             
-            <div class="col-sm-8">           
+            </label>
+            <div class="col-sm-8">
               <input type="text" name="p_code" value="<?php echo $product['p_code']; ?>" class="form-control" id="p_code" required>
             </div>
           </div>
@@ -145,13 +146,13 @@
                   <?php echo trans('text_select'); ?>
                 </option>
                 <?php foreach (get_category_tree(array('filter_fetch_all' => true)) as $category_id => $category_name) { ?>
-                    <?php if($product['category_id'] == $category_id) : ?>
-                      <option value="<?php echo $category_id; ?>" selected><?php echo $category_name ; ?></option>
-                    <?php else: ?>
-                      <option value="<?php echo $category_id; ?>"><?php echo $category_name ; ?></option>
-                    <?php endif; ?>
+                  <?php if ($product['category_id'] == $category_id) : ?>
+                    <option value="<?php echo $category_id; ?>" selected><?php echo $category_name; ?></option>
+                  <?php else : ?>
+                    <option value="<?php echo $category_id; ?>"><?php echo $category_name; ?></option>
+                  <?php endif; ?>
                 <?php } ?>
-             </select>
+              </select>
             </div>
           </div>
 
@@ -164,19 +165,19 @@
                 <option value="">
                   <?php echo trans('text_select'); ?>
                 </option>
-                <?php foreach(get_suppliers() as $supplier) {
-                    if($supplier['sup_id'] == $product['sup_id']) { ?>
-                      <option value="<?php echo $supplier['sup_id']; ?>" selected>
-                        <?php echo $supplier['sup_name']; ?>
-                      </option>
-                    <?php
-                    } else { ?>
-                      <option value="<?php echo $supplier['sup_id']; ?>">
-                        <?php echo $supplier['sup_name']; ?>
-                      </option>
-                    <?php
-                    }
+                <?php foreach (get_suppliers() as $supplier) {
+                  if ($supplier['sup_id'] == $product['sup_id']) { ?>
+                    <option value="<?php echo $supplier['sup_id']; ?>" selected>
+                      <?php echo $supplier['sup_name']; ?>
+                    </option>
+                  <?php
+                  } else { ?>
+                    <option value="<?php echo $supplier['sup_id']; ?>">
+                      <?php echo $supplier['sup_name']; ?>
+                    </option>
+                <?php
                   }
+                }
                 ?>
               </select>
             </div>
@@ -184,26 +185,26 @@
 
           <div ng-hide="hideBrand" class="form-group">
             <label for="brand_id" class="col-sm-3 control-label">
-              <?php echo trans('label_brand'); ?>
+              <?php echo trans('label_brand'); ?><i class="required">*</i>
             </label>
             <div class="col-sm-8">
               <select class="form-control" name="brand_id" required>
                 <option value="">
                   <?php echo trans('text_select'); ?>
                 </option>
-                <?php foreach(get_brands() as $brand) {
-                    if($brand['brand_id'] == $product['brand_id']) { ?>
-                      <option value="<?php echo $brand['brand_id']; ?>" selected>
-                        <?php echo $brand['brand_name']; ?>
-                      </option>
-                    <?php
-                    } else { ?>
-                      <option value="<?php echo $brand['brand_id']; ?>">
-                        <?php echo $brand['brand_name']; ?>
-                      </option>
-                    <?php
-                    }
+                <?php foreach (get_brands() as $brand) {
+                  if ($brand['brand_id'] == $product['brand_id']) { ?>
+                    <option value="<?php echo $brand['brand_id']; ?>" selected>
+                      <?php echo $brand['brand_name']; ?>
+                    </option>
+                  <?php
+                  } else { ?>
+                    <option value="<?php echo $brand['brand_id']; ?>">
+                      <?php echo $brand['brand_name']; ?>
+                    </option>
+                <?php
                   }
+                }
                 ?>
               </select>
             </div>
@@ -215,13 +216,13 @@
             </label>
             <div class="col-sm-8">
               <select id="barcode_symbology" class="form-control select2" name="barcode_symbology">
-                <option value="code25" <?php echo  $product['barcode_symbology'] == 'code25' ? 'selected' : null;?>>code25</option>
-                <option value="code39" <?php echo  $product['barcode_symbology'] == 'code39' ? 'selected' : null;?>>code39</option>
-                <option value="code128" <?php echo  $product['barcode_symbology'] == 'code128' ? 'selected' : null;?>>code128</option>
-                <option value="ean5" <?php echo  $product['barcode_symbology'] == 'ean5' ? 'selected' : null;?>>ean5</option>
-                <option value="ean13" <?php echo  $product['barcode_symbology'] == 'ean13' ? 'selected' : null;?>>ean13</option>
-                <option value="upca" <?php echo  $product['barcode_symbology'] == 'upca' ? 'selected' : null;?>>upca</option>
-                <option value="upce" <?php echo  $product['barcode_symbology'] == 'upce' ? 'selected' : null;?>>upce</option>
+                <option value="code25" <?php echo  $product['barcode_symbology'] == 'code25' ? 'selected' : null; ?>>code25</option>
+                <option value="code39" <?php echo  $product['barcode_symbology'] == 'code39' ? 'selected' : null; ?>>code39</option>
+                <option value="code128" <?php echo  $product['barcode_symbology'] == 'code128' ? 'selected' : null; ?>>code128</option>
+                <option value="ean5" <?php echo  $product['barcode_symbology'] == 'ean5' ? 'selected' : null; ?>>ean5</option>
+                <option value="ean13" <?php echo  $product['barcode_symbology'] == 'ean13' ? 'selected' : null; ?>>ean13</option>
+                <option value="upca" <?php echo  $product['barcode_symbology'] == 'upca' ? 'selected' : null; ?>>upca</option>
+                <option value="upce" <?php echo  $product['barcode_symbology'] == 'upce' ? 'selected' : null; ?>>upce</option>
               </select>
             </div>
           </div>
@@ -232,21 +233,21 @@
             </label>
             <div class="col-sm-8">
               <select class="form-control" name="box_id" required>
-                  <option value="">
-                    <?php echo trans('text_select'); ?>
-                  </option>
-                  <?php foreach(get_boxes() as $box_row) {
-                      if($box_row['box_id'] == $product['box_id']) { ?>
-                        <option value="<?php echo $box_row['box_id']; ?>" selected><?php echo $box_row['box_name']; ?></option><?php
-                      } else {
-                        ?>
-                        <option value="<?php echo $box_row['box_id']; ?>">
-                          <?php echo $box_row['box_name']; ?>
-                        </option>
-                      <?php
-                      }
-                    }
-                  ?>
+                <option value="">
+                  <?php echo trans('text_select'); ?>
+                </option>
+                <?php foreach (get_boxes() as $box_row) {
+                  if ($box_row['box_id'] == $product['box_id']) { ?>
+                    <option value="<?php echo $box_row['box_id']; ?>" selected><?php echo $box_row['box_name']; ?></option><?php
+                                                                                                                          } else {
+                                                                                                                            ?>
+                    <option value="<?php echo $box_row['box_id']; ?>">
+                      <?php echo $box_row['box_name']; ?>
+                    </option>
+                <?php
+                                                                                                                          }
+                                                                                                                        }
+                ?>
               </select>
             </div>
           </div>
@@ -269,7 +270,26 @@
             </div>
           </div>
 
-          <div ng-show="!hideExpiredAt" class="form-group<?php echo !get_preference('expiry_yes') ? ' hide' : null;?>">
+          <div ng-hide="hideUnit" class="form-group <?php echo !user_group_id() == 1 ? ' hide ' : null; ?>">
+            <label for="sell_price" class="col-sm-3 control-label">
+              <?php echo trans('label_product_discount'); ?>
+            </label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="discount" name="discount" value="<?php echo $product['sell_discount']; ?>" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" onKeyUp="if(this.value<0){this.value='1';}">
+            </div>
+            <div class="col-sm-4">
+              <select id="discount_active" class="form-control " name="discount_active">
+                <option <?php echo isset($product['discount_active']) && $product['discount_active'] == '0' ? 'selected' : null; ?> value="0">
+                  <?php echo trans('text_inactive'); ?>
+                </option>
+                <option <?php echo isset($product['discount_active']) && $product['discount_active'] == '1' ? 'selected' : null; ?> value="1">
+                  <?php echo trans('text_active'); ?>
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div ng-show="!hideExpiredAt" class="form-group<?php echo !get_preference('expiry_yes') ? ' hide' : null; ?>">
             <label for="e_date" class="col-sm-3 control-label">
               <?php echo trans('label_expired_date'); ?><i class="required">*</i>
             </label>
@@ -284,21 +304,21 @@
             </label>
             <div class="col-sm-8">
               <select class="form-control" name="unit_id" required>
-                  <option value="">
-                    <?php echo trans('text_select'); ?>
-                  </option>
-                  <?php foreach(get_units() as $unit_row) {
-                      if($unit_row['unit_id'] == $product['unit_id']) { ?>
-                        <option value="<?php echo $unit_row['unit_id']; ?>" selected><?php echo $unit_row['unit_name']; ?></option><?php
-                      } else {
-                        ?>
-                        <option value="<?php echo $unit_row['unit_id']; ?>">
-                          <?php echo $unit_row['unit_name']; ?>
-                        </option>
-                      <?php
-                      }
-                    }
-                  ?>
+                <option value="">
+                  <?php echo trans('text_select'); ?>
+                </option>
+                <?php foreach (get_units() as $unit_row) {
+                  if ($unit_row['unit_id'] == $product['unit_id']) { ?>
+                    <option value="<?php echo $unit_row['unit_id']; ?>" selected><?php echo $unit_row['unit_name']; ?></option><?php
+                                                                                                                              } else {
+                                                                                                                                ?>
+                    <option value="<?php echo $unit_row['unit_id']; ?>">
+                      <?php echo $unit_row['unit_name']; ?>
+                    </option>
+                <?php
+                                                                                                                              }
+                                                                                                                            }
+                ?>
               </select>
             </div>
           </div>
@@ -309,21 +329,21 @@
             </label>
             <div class="col-sm-4">
               <select class="form-control" name="unit_id_medium" required>
-                  <option value="">
-                    <?php echo trans('text_select'); ?>
-                  </option>
-                  <?php foreach(get_units() as $unit_row) {
-                      if($unit_row['unit_id'] == $product['unit_id_medium']) { ?>
-                        <option value="<?php echo $unit_row['unit_id']; ?>" selected><?php echo $unit_row['unit_name']; ?></option><?php
-                      } else {
-                        ?>
-                        <option value="<?php echo $unit_row['unit_id']; ?>">
-                          <?php echo $unit_row['unit_name']; ?>
-                        </option>
-                      <?php
-                      }
-                    }
-                  ?>
+                <option value="">
+                  <?php echo trans('text_select'); ?>
+                </option>
+                <?php foreach (get_units() as $unit_row) {
+                  if ($unit_row['unit_id'] == $product['unit_id_medium']) { ?>
+                    <option value="<?php echo $unit_row['unit_id']; ?>" selected><?php echo $unit_row['unit_name']; ?></option><?php
+                                                                                                                              } else {
+                                                                                                                                ?>
+                    <option value="<?php echo $unit_row['unit_id']; ?>">
+                      <?php echo $unit_row['unit_name']; ?>
+                    </option>
+                <?php
+                                                                                                                              }
+                                                                                                                            }
+                ?>
               </select>
             </div>
             <div class="col-sm-2">
@@ -340,21 +360,21 @@
             </label>
             <div class="col-sm-4">
               <select class="form-control" name="unit_id_large" required>
-                  <option value="">
-                    <?php echo trans('text_select'); ?>
-                  </option>
-                  <?php foreach(get_units() as $unit_row) {
-                      if($unit_row['unit_id'] == $product['unit_id_large']) { ?>
-                        <option value="<?php echo $unit_row['unit_id']; ?>" selected><?php echo $unit_row['unit_name']; ?></option><?php
-                      } else {
-                        ?>
-                        <option value="<?php echo $unit_row['unit_id']; ?>">
-                          <?php echo $unit_row['unit_name']; ?>
-                        </option>
-                      <?php
-                      }
-                    }
-                  ?>
+                <option value="">
+                  <?php echo trans('text_select'); ?>
+                </option>
+                <?php foreach (get_units() as $unit_row) {
+                  if ($unit_row['unit_id'] == $product['unit_id_large']) { ?>
+                    <option value="<?php echo $unit_row['unit_id']; ?>" selected><?php echo $unit_row['unit_name']; ?></option><?php
+                                                                                                                              } else {
+                                                                                                                                ?>
+                    <option value="<?php echo $unit_row['unit_id']; ?>">
+                      <?php echo $unit_row['unit_name']; ?>
+                    </option>
+                <?php
+                                                                                                                              }
+                                                                                                                            }
+                ?>
               </select>
             </div>
             <div class="col-sm-2">
@@ -366,14 +386,14 @@
           </div>
 
           <?php if (get_preference('invoice_view') == 'indian_gst') : ?>
-          <div class="form-group all">
-            <label for="hsn_code" class="col-sm-3 control-label">
-              <?php echo trans('label_hsn_code'); ?>
-            </label>             
-            <div class="col-sm-8">           
-              <input type="text" name="hsn_code" id="hsn_code" class="form-control" value="<?php echo $product['hsn_code']; ?>" autocomplete="off" required>
+            <div class="form-group all">
+              <label for="hsn_code" class="col-sm-3 control-label">
+                <?php echo trans('label_hsn_code'); ?>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" name="hsn_code" id="hsn_code" class="form-control" value="<?php echo $product['hsn_code']; ?>" autocomplete="off" required>
+              </div>
             </div>
-          </div>
           <?php endif; ?>
 
           <div class="form-group">
@@ -382,21 +402,21 @@
             </label>
             <div class="col-sm-8">
               <select class="form-control" name="taxrate_id" required>
-                  <option value="">
-                    <?php echo trans('text_select'); ?>
-                  </option>
-                  <?php foreach(get_taxrates() as $taxrate_row) {
-                      if($taxrate_row['taxrate_id'] == $product['taxrate_id']) { ?>
-                        <option value="<?php echo $taxrate_row['taxrate_id']; ?>" selected><?php echo $taxrate_row['taxrate_name']; ?></option><?php
-                      } else {
-                        ?>
-                        <option value="<?php echo $taxrate_row['taxrate_id']; ?>">
-                          <?php echo $taxrate_row['taxrate_name']; ?>
-                        </option>
-                      <?php
-                      }
-                    }
-                  ?>
+                <option value="">
+                  <?php echo trans('text_select'); ?>
+                </option>
+                <?php foreach (get_taxrates() as $taxrate_row) {
+                  if ($taxrate_row['taxrate_id'] == $product['taxrate_id']) { ?>
+                    <option value="<?php echo $taxrate_row['taxrate_id']; ?>" selected><?php echo $taxrate_row['taxrate_name']; ?></option><?php
+                                                                                                                                          } else {
+                                                                                                                                            ?>
+                    <option value="<?php echo $taxrate_row['taxrate_id']; ?>">
+                      <?php echo $taxrate_row['taxrate_name']; ?>
+                    </option>
+                <?php
+                                                                                                                                          }
+                                                                                                                                        }
+                ?>
               </select>
             </div>
           </div>
@@ -406,7 +426,7 @@
               <?php echo trans('label_tax_method'); ?><i class="required">*</i>
             </label>
             <div class="col-sm-8">
-              <select id="tax_method" class="form-control" name="tax_method" >
+              <select id="tax_method" class="form-control" name="tax_method">
                 <option <?php echo isset($product['tax_method']) && $product['tax_method'] == 'inclusive' ? 'selected' : null; ?> value="inclusive">
                   <?php echo trans('text_inclusive'); ?>
                 </option>
@@ -432,9 +452,9 @@
               </div>
               <div class="well well-sm store-well">
                 <div filter-list="search_store">
-                  <?php foreach(get_stores() as $the_store) : ?>                    
+                  <?php foreach (get_stores() as $the_store) : ?>
                     <div class="checkbox">
-                      <label>      
+                      <label>
                         <input type="checkbox" name="product_store[]" value="<?php echo $the_store['store_id']; ?>" <?php echo in_array($the_store['store_id'], $product['stores']) ? 'checked' : null; ?>>
                         <?php echo $the_store['name']; ?>
                       </label>
@@ -468,7 +488,7 @@
               <?php echo trans('label_status'); ?><i class="required">*</i>
             </label>
             <div class="col-sm-8">
-              <select id="status" class="form-control" name="status" >
+              <select id="status" class="form-control" name="status">
                 <option <?php echo isset($product['status']) && $product['status'] == '1' ? 'selected' : null; ?> value="1">
                   <?php echo trans('text_active'); ?>
                 </option>
@@ -496,7 +516,7 @@
           <label class="col-sm-3 control-label"></label>
           <div class="col-sm-8">
             <button class="btn btn-info btn-lg btn-block" id="product-update-submit" name="form_update" data-form="#product-update-form" data-loading-text="Updating...">
-              <i class="fa fa-fw fa-pencil"></i> 
+              <i class="fa fa-fw fa-pencil"></i>
               <?php echo trans('button_update'); ?>
             </button>
           </div>

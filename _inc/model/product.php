@@ -20,7 +20,7 @@ class ModelProduct extends Model
 		$purchase_price = isset($data['purchase_price']) ? (float)$data['purchase_price'] : 0;
 		$hsn_code = isset($data['hsn_code']) ? $data['hsn_code'] : NULL;
 		$statement = $this->db->prepare("INSERT INTO `products` (p_type, p_name, p_code, hsn_code, barcode_symbology, category_id, unit_id, p_image, description, unit_id_medium, unit_id_large, vol_unit_medium, vol_unit_large) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$statement->execute(array($data['p_type'], $data['p_name'], $data['p_code'], $hsn_code, $data['barcode_symbology'], $data['category_id'], $data['unit_id'], $data['p_image'], $data['description'], $data['unit_id_medium'], $data['unit_id_large'], $data['vol_unit_medium'], $data['vol_unit_large'],));
+		$statement->execute(array($data['p_type'], $data['p_name'], $data['p_code'], $hsn_code, $data['barcode_symbology'], $data['category_id'], $data['unit_id'], $data['p_image'], $data['description'], $data['unit_id_medium'], $data['unit_id_large'], $data['vol_unit_medium'], $data['vol_unit_large']));
 		$preference = isset($data['preference']) && !empty($data['preference']) ? serialize($data['preference']) : serialize(array());
 
 		$product_id = $this->db->lastInsertId();
@@ -70,8 +70,8 @@ class ModelProduct extends Model
 
 				//--- product to store ---//
 
-				$statement = $this->db->prepare("INSERT INTO `product_to_store` SET `product_id` = ?, `store_id` = ?, `purchase_price` = ?, `sell_price` = ?, `sup_id` = ?, `brand_id` = ?, `box_id` = ?, `taxrate_id` = ?, `tax_method` = ?, `preference` = ?, `e_date` = ?, `alert_quantity` = ?, `p_date` = ?, `sell_price_medium` = ?, `sell_price_large` = ?");
-				$statement->execute(array($product_id, $store_id, $purchase_price, $data['sell_price'], $data['sup_id'], $data['brand_id'], $data['box_id'], $data['taxrate_id'], $data['tax_method'], $preference, $data['e_date'], $data['alert_quantity'], date('Y-m-d'), $data['sell_price_medium'], $data['sell_price_large']));
+				$statement = $this->db->prepare("INSERT INTO `product_to_store` SET `product_id` = ?, `store_id` = ?, `purchase_price` = ?, `sell_price` = ?, `sup_id` = ?, `brand_id` = ?, `box_id` = ?, `taxrate_id` = ?, `tax_method` = ?, `preference` = ?, `e_date` = ?, `alert_quantity` = ?, `p_date` = ?, `sell_price_medium` = ?, `sell_price_large` = ?, `sell_discount` = ?, `discount_active` = ?");
+				$statement->execute(array($product_id, $store_id, $purchase_price, $data['sell_price'], $data['sup_id'], $data['brand_id'], $data['box_id'], $data['taxrate_id'], $data['tax_method'], $preference, $data['e_date'], $data['alert_quantity'], date('Y-m-d'), $data['sell_price_medium'], $data['sell_price_large'], $data['discount'], $data['discount_active']));
 			}
 		}
 
@@ -185,8 +185,8 @@ class ModelProduct extends Model
 					$statement->execute(array($product_id, $store_id, $data['sup_id'], $data['brand_id'], $data['box_id'], $data['taxrate_id'], $data['tax_method'], $preference, $data['sell_price'], $data['e_date'], $data['alert_quantity'], date('Y-m-d')));
 				} else {
 
-					$statement = $this->db->prepare("UPDATE `product_to_store` SET `sup_id` = ?, `brand_id` = ?, `box_id` = ?, `taxrate_id` = ?, `tax_method` = ?, `preference` = ?, `purchase_price` = ?, `sell_price` = ?, `e_date` = ?, `alert_quantity` = ?, `sell_price_medium` = ?, `sell_price_large` = ? WHERE `store_id` = ? AND `product_id` = ?");
-					$statement->execute(array($data['sup_id'], $data['brand_id'], $data['box_id'], $data['taxrate_id'], $data['tax_method'], $preference, $data['purchase_price'], $data['sell_price'], $data['e_date'], $data['alert_quantity'], $data['sell_price_medium'], $data['sell_price_large'], $store_id, $product_id));
+					$statement = $this->db->prepare("UPDATE `product_to_store` SET `sup_id` = ?, `brand_id` = ?, `box_id` = ?, `taxrate_id` = ?, `tax_method` = ?, `preference` = ?, `purchase_price` = ?, `sell_price` = ?, `e_date` = ?, `alert_quantity` = ?, `sell_price_medium` = ?, `sell_price_large` = ?, sell_discount = ?, discount_active = ? WHERE `store_id` = ? AND `product_id` = ?");
+					$statement->execute(array($data['sup_id'], $data['brand_id'], $data['box_id'], $data['taxrate_id'], $data['tax_method'], $preference, $data['purchase_price'], $data['sell_price'], $data['e_date'], $data['alert_quantity'], $data['sell_price_medium'], $data['sell_price_large'], $data['discount'], $data['discount_active'], $store_id, $product_id));
 				}
 
 				$store_ids[] = $store_id;
