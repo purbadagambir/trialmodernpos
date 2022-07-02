@@ -75,7 +75,7 @@ include ("left_sidebar.php");
 
     <hr>
     
-    <!-- Small Boxex -->
+    <!-- Small Boxex asas -->
     <div class="row">
       <div class="col-md-3 col-xs-6">
         <div id="invoice-count" class="small-box bg-green">
