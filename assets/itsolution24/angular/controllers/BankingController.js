@@ -243,8 +243,17 @@ function (
         e.stopPropagation();
         e.preventDefault();
         var d = dt.DataTable().row( $(this).closest("tr") ).data();
+        console.log(d);
         BankingRowViewModal(d, 'withdraw');
     });
+
+    // View asset details
+    // $(document).delegate(".view-asset", "click", function (e) {
+    //     e.stopPropagation();
+    //     e.preventDefault();
+    //     var d = dt.DataTable().row( $(this).closest("tr") ).data();
+    //     BankingRowViewModal(d, 'asset');
+    // });
 
     // Edit invoice
     $(document).delegate("#edit-invoice-btn", "click", function (e) {

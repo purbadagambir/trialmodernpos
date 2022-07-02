@@ -212,7 +212,7 @@ include ("left_sidebar.php");
               </div>
               <div class="col-sm-4 col-xs-4">
                 <div class="description-block border-right">
-                  <h2 class="description-header"><?php echo currency_format(get_bank_deposit_amount(date('Y-m-d'), date('Y-m-d')));?></h2>
+                  <h2 class="description-header"><?php echo currency_format($banking_model->get_asset_amount(store_id())); ?></h2>
                   <h4 class="description-text"><?php echo trans('text_data_asset'); ?></h4>
                 </div>
               </div>
@@ -266,25 +266,25 @@ include ("left_sidebar.php");
               <div class="pr-15 col-md-4 col-xs-12">
                 <div class="box box-default banking-box">
                   <div class="box-header with-border">
-                    <h3 class="box-title"><?php echo trans('text_recent_deposit'); ?></h3>
+                    <h3 class="box-title"><?php echo trans('text_data_asset'); ?></h3>
                   </div>
                   <div class="box-body">
                     <div class="table-responsive" style="min-height:150px">
                       <table class="table table-striped no-margin">
                         <thead>
                           <tr class="bg-gray">
-                            <th class="w-35 text-center"><?php echo trans('label_date'); ?></th>
-                            <th class="w-45"><?php echo trans('label_description'); ?></th>
+                            <th class="w-35 text-center"><?php echo trans('label_product'); ?></th>
+                            <th class="w-45"><?php echo trans('label_stock'); ?></th>
                             <th class="w-20 text-right"><?php echo trans('label_amount'); ?></th>
                           </tr>
                         </thead>
                         <tbody>
-                          <?php if ($transactions = $banking_model->getTransactions('deposit', store_id(), 3)) : ?>
+                          <?php if ($transactions = $banking_model->getPurchase(store_id(), 3)) : ?>
                             <?php foreach ($transactions as $row) : ?>
                               <tr>
-                                <td class="w-35 text-center"><?php echo $row['created_at'];?></td>
-                                <td class="w-45"><a class="view-deposit" data-refno="<?php echo $row['ref_no'];?>" href="#" tyle="white-space:nowrap;max-width:100%;overflow:hidden;display:inline-block;"><?php echo $row['title'];?></a></td>
-                                <td class="w-20 text-right"><?php echo currency_format($row['amount']);?></td>
+                                <td class="w-35 text-center"><?php echo $row['item_name'];?></td>
+                                <td class="w-45 text-center"><?php echo $row['item_quantity'];?></td>
+                                <td class="w-20 text-right"><?php echo currency_format($row['item_total']);?></td>
                               </tr>
                             <?php endforeach; ?>
                           <?php endif; ?>
@@ -294,7 +294,7 @@ include ("left_sidebar.php");
                   </div>
                   <div class="box-footer clearfix text-center">
                     <?php if (user_group_id() == 1 || has_permission('access', 'read_bank_transactions')) : ?>
-                      <a href="<?php echo root_url();?>/admin/bank_transactions.php"><?php echo trans('button_view_all'); ?> &rarr;</a>
+                      <a href="<?php echo root_url();?>/admin/product.php"><?php echo trans('button_view_all'); ?> &rarr;</a>
                     <?php endif; ?>
                   </div>
                 </div>

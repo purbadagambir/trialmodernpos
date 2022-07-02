@@ -96,6 +96,12 @@ function ($scope,
         BankingRowViewModal({ref_no: refNo}, 'withdraw');
     });
 
+    $(".view-asset").on("click", function (e) {
+        e.preventDefault();
+        var refNo = $(this).data("refno");
+        BankingRowViewModal({ref_no: refNo}, 'deposit');
+    });
+
     $scope.QuotationViewModal = function(data) {
         QuotationViewModal(data);
     }
