@@ -15,6 +15,18 @@
         <th class="text-right w-10">
           <?php echo trans('label_available'); ?>
         </th>
+        <th class="text-right w-10">
+          <?php echo trans('label_quantity_conv'); ?>
+        </th>
+        <th class="text-right w-10">
+          <?php echo trans('label_UOM_Large'); ?>
+        </th>
+        <th class="text-right w-10">
+          <?php echo trans('label_UOM_Medium'); ?>
+        </th>
+        <th class="text-right w-10">
+          <?php echo trans('label_UOM_Small'); ?>
+        </th>
         <th class="text-right w-15">
           <?php echo trans('label_sell_price'); ?>
         </th>
@@ -24,7 +36,8 @@
       </tr>
     </thead>
     <tfoot>
-      <tr class="bg-gray">
+      
+    <tr class="bg-gray">
         <th class="w-5">#</th>
         <th class="w-25">
           <?php echo trans('supplier_name'); ?>
@@ -34,6 +47,18 @@
         </th>
         <th class="text-right w-10">
           <?php echo trans('label_available'); ?>
+        </th>
+        <th class="text-right w-10">
+          <?php echo trans('label_quantity_conv'); ?>
+        </th>
+        <th class="text-right w-10">
+          <?php echo trans('label_UOM_Large'); ?>
+        </th>
+        <th class="text-right w-10">
+          <?php echo trans('label_UOM_Medium'); ?>
+        </th>
+        <th class="text-right w-10">
+          <?php echo trans('label_UOM_Small'); ?>
         </th>
         <th class="text-right w-15">
           <?php echo trans('label_sell_price'); ?>

@@ -35,8 +35,17 @@ if ($sup_id) {
 //===========================
 
 // DB table to use
-$table = "(SELECT products.p_id, products.p_name, p2s.store_id, p2s.sup_id, p2s.quantity_in_stock, p2s.sell_price as sell_price, p2s.purchase_price as purchase_price FROM products 
+$table = "(SELECT products.p_id, products.p_name, p2s.store_id, p2s.sup_id, p2s.quantity_in_stock, p2s.sell_price as sell_price, p2s.purchase_price as purchase_price,
+  coalesce(floor(p2s.quantity_in_stock/products.vol_unit_large),0)  as vol_large,
+  coalesce(floor((p2s.quantity_in_stock-floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)/products.vol_unit_medium),0)   as vol_medium,
+  case when coalesce(floor(p2s.quantity_in_stock/products.vol_unit_large),0) = 0 and coalesce(floor((p2s.quantity_in_stock-floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)/products.vol_unit_medium),0) = 0 and coalesce(p2s.quantity_in_stock-((floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)+(floor((p2s.quantity_in_stock-floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)/products.vol_unit_medium)*products.vol_unit_medium)),0) = 0 then p2s.quantity_in_stock else
+  coalesce(p2s.quantity_in_stock-((floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)+(floor((p2s.quantity_in_stock-floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)/products.vol_unit_medium)*products.vol_unit_medium)),0) end as vol_small,
+  A.unit_name as uom_medium,B.unit_name as uom_large,C.unit_name as uom_small
+  FROM products 
   LEFT JOIN product_to_store p2s ON (products.p_id = p2s.product_id)
+  LEFT JOIN units A ON (products.unit_id_medium  = A.unit_id) 
+  LEFT JOIN units B ON (products.unit_id_large  = B.unit_id)
+  LEFT JOIN units C ON (products.unit_id  = C.unit_id)
   WHERE $where_query
   GROUP BY products.p_id, p2s.sup_id
   ORDER BY p2s.sup_id ASC) as products";
@@ -75,6 +84,37 @@ $columns = array(
         return number_format($row['quantity_in_stock']);
       }
     ),
+    array('db'        => 'vol_medium'),
+    array('db'        => 'vol_small'),
+    array( 
+      'db' => 'vol_large',   
+      'dt' => 'quantity_conv' ,
+      'formatter' => function($d, $row) {
+        return currency_format($row['vol_large']). '.' .currency_format($row['vol_medium']). '.' .currency_format($row['vol_small']);
+      }
+    ),
+    
+  array( 
+    'db' => 'uom_large',   
+    'dt' => 'UOM_Large' ,
+    'formatter' => function($d, $row) {
+      return  $row['uom_large'];
+    }
+  ),
+  array( 
+    'db' => 'uom_medium',   
+    'dt' => 'UOM_Medium' ,
+    'formatter' => function($d, $row) {
+      return  $row['uom_medium'];
+    }
+  ),
+  array( 
+    'db' => 'uom_small',   
+    'dt' => 'UOM_Small' ,
+    'formatter' => function($d, $row) {
+      return  $row['uom_small'];
+    }
+  ),
     array( 
       'db' => 'sell_price',  
       'dt' => 'sell_price',

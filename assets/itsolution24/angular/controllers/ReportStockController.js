@@ -45,9 +45,9 @@ function (
                 [10, 25, 50, 100, 200, "All"]
             ],
             "columnDefs": [
-                {"targets": [0, 1, 2, 3, 4, 5], "orderable": false},
+                {"targets": [0, 1, 2, 3, 4, 5,6,7,8,9], "orderable": false},
                 {"visible": false,  "targets": hideColumsArray},
-                {"className": "text-right", "targets": [3, 4, 5]},
+                {"className": "text-right", "targets": [3, 4, 5, 6, 7, 8]},
                 { 
                     "targets": [0],
                     'createdCell':  function (td, cellData, rowData, row, col) {
@@ -72,12 +72,40 @@ function (
                        $(td).attr('data-title', $("#report_stock thead tr th:eq(3)").html());
                     }
                 },
+                { 
+                    "targets": [5],
+                    'createdCell':  function (td, cellData, rowData, row, col) {
+                       $(td).attr('data-title', $("#report_stock thead tr th:eq(4)").html());
+                    }
+                },
+                { 
+                    "targets": [6],
+                    'createdCell':  function (td, cellData, rowData, row, col) {
+                       $(td).attr('data-title', $("#report_stock thead tr th:eq(5)").html());
+                    }
+                },
+                { 
+                    "targets": [7],
+                    'createdCell':  function (td, cellData, rowData, row, col) {
+                       $(td).attr('data-title', $("#report_stock thead tr th:eq(6)").html());
+                    }
+                },
+                { 
+                    "targets": [8],
+                    'createdCell':  function (td, cellData, rowData, row, col) {
+                       $(td).attr('data-title', $("#report_stock thead tr th:eq(7)").html());
+                    }
+                },
             ],
             "aoColumns": [
                 {data : "sl"},
                 {data : "sup_name"},
                 {data : "product_name"},
                 {data : "available"},
+                {data : "quantity_conv"},
+                {data : "UOM_Large"},
+                {data : "UOM_Medium"},
+                {data : "UOM_Small"},
                 {data : "sell_price"},
                 {data : "purchase_price"},
             ],
@@ -123,7 +151,7 @@ function (
 
                     if ( last !== group ) {
                         $(rows).eq( i ).before(
-                            '<tr class="group warning" data-child="'+generateHashCode(group)+'"><td class="bg-green" colspan="2" data-title="Supplier Name"><i class="fa fa-fw fa-angle-right"></i> '+group+'</td><td class="bg-green '+availabilityRow+'  text-right" data-title="Total Available"></td><td class="bg-green '+totalSellPriceRow+'  text-right" data-title="Total Sell Price"></td><td class="bg-green '+totalpurchasePriceRow+'  text-right" data-title="Total purchase Price"></td></tr>'
+                            '<tr class="group warning" data-child="'+generateHashCode(group)+'"><td class="bg-green" colspan="2" data-title="Supplier Name"><i class="fa fa-fw fa-angle-right"></i> '+group+'</td></tr>'
                         );
                         last = group;
                     } 
@@ -149,41 +177,7 @@ function (
                             i : 0;
                 };
 
-                // Total over this page
-                pageTotal = api
-                    .column( 3, { page: "current"} )
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0 );
-                // Update footer
-                $( api.column( 3 ).footer() ).html(
-                    window.formatDecimal(pageTotal, 2)
-                );
 
-                // Total over this page
-                pageTotal = api
-                    .column( 4, { page: "current"} )
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0 );
-                // Update footer
-                $( api.column( 4 ).footer() ).html(
-                    window.formatDecimal(pageTotal, 2)
-                );
-
-                // Total over this page
-                pageTotal = api
-                    .column( 5, { page: "current"} )
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0 );
-                // Update footer
-                $( api.column( 5 ).footer() ).html(
-                    window.formatDecimal(pageTotal, 2)
-                );
             },
             "pageLength": 200,
             "buttons": [
@@ -207,7 +201,7 @@ function (
                             .css( 'font-size', 'inherit' );
                     },
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
                     }
                 },
                 {
@@ -216,7 +210,7 @@ function (
                     titleAttr: "Copy",
                     title: window.store.name + " > Stock Report-"+from+" to "+to,
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
                     }
                 },
                 {
@@ -225,7 +219,7 @@ function (
                     titleAttr: "Excel",
                     title: window.store.name + " > Stock Report-"+from+" to "+to,
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
                     }
                 },
                 {
@@ -234,7 +228,7 @@ function (
                     titleAttr: "CSV",
                     title: window.store.name + " > Stock Report-"+from+" to "+to,
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
                     }
                 },
                 {
@@ -244,7 +238,7 @@ function (
                     download: "open",
                     title: window.store.name + " > Stock Report-"+from+" to "+to,
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
                     },
                     customize: function (doc) {
                         doc.content[1].table.widths =  Array(doc.content[1].table.body[0].length + 1).join('*').split('');
@@ -328,6 +322,7 @@ function (
     });
 
     // Append email button into datatable buttons
+    //AKBAR
     if (window.sendReportEmail) { $(".dt-buttons").append("<button id=\"email-btn\" class=\"btn btn-default buttons-email\" tabindex=\"0\" aria-controls=\"invoice-invoice-list\" type=\"button\" title=\"Email\"><span><i class=\"fa fa-envelope\"></i></span></button>"); };
     
     // Send Email
