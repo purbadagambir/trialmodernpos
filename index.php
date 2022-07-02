@@ -1,6 +1,6 @@
 <?php 
 /*
-Tes Akbar
+Tes Akbar 18:25
 | -----------------------------------------------------
 | PRODUCT NAME: 	Modern POS - Point of Sale with Stock Management System
 | -----------------------------------------------------
