@@ -355,12 +355,16 @@ $Hooks->do_action('Before_Showing_Product_List');
 $where_query = 'p2s.store_id = ' . store_id();
  
 // DB table to use
-$table = "(SELECT products.*, p2s.*, suppliers.sup_mobile, suppliers.sup_name as supplier, boxes.box_name,A.unit_name as uom_medium,B.unit_name as uom_large FROM products 
-  LEFT JOIN product_to_store p2s ON (products.p_id = p2s.product_id) 
-  LEFT JOIN suppliers ON (p2s.sup_id = suppliers.sup_id) 
-  LEFT JOIN boxes ON (p2s.box_id = boxes.box_id)  
-  LEFT JOIN units A ON (products.unit_id_medium  = A.unit_id) 
-  LEFT JOIN units B ON (products.unit_id_large  = B.unit_id)  
+$table = "(SELECT products.*, p2s.*, suppliers.sup_mobile, suppliers.sup_name as supplier, boxes.box_name,A.unit_name as uom_medium,B.unit_name as uom_large,coalesce(floor(p2s.quantity_in_stock/products.vol_unit_large),0)  as vol_large,
+coalesce(floor((p2s.quantity_in_stock-floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)/products.vol_unit_medium),0)   as vol_medium,
+case when coalesce(floor(p2s.quantity_in_stock/products.vol_unit_large),0) = 0 and coalesce(floor((p2s.quantity_in_stock-floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)/products.vol_unit_medium),0) = 0 and coalesce(p2s.quantity_in_stock-((floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)+(floor((p2s.quantity_in_stock-floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)/products.vol_unit_medium)*products.vol_unit_medium)),0) = 0 then p2s.quantity_in_stock else
+coalesce(p2s.quantity_in_stock-((floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)+(floor((p2s.quantity_in_stock-floor(p2s.quantity_in_stock/products.vol_unit_large)*products.vol_unit_large)/products.vol_unit_medium)*products.vol_unit_medium)),0) end as vol_small
+FROM products 
+LEFT JOIN product_to_store p2s ON (products.p_id = p2s.product_id) 
+LEFT JOIN suppliers ON (p2s.sup_id = suppliers.sup_id) 
+LEFT JOIN boxes ON (p2s.box_id = boxes.box_id)  
+LEFT JOIN units A ON (products.unit_id_medium  = A.unit_id) 
+LEFT JOIN units B ON (products.unit_id_large  = B.unit_id) 
   WHERE $where_query GROUP by products.p_id
   ORDER BY p2s.p_date DESC
   ) as products";
@@ -444,7 +448,16 @@ $columns = array(
     'db' => 'quantity_in_stock',   
     'dt' => 'quantity_in_stock' ,
     'formatter' => function($d, $row) {
-      return currency_format($row['quantity_in_stock']);
+      return currency_format($row['quantity_in_stock']) ;
+    }
+  ),
+  array('db'        => 'vol_medium'),
+  array('db'        => 'vol_small'),
+  array( 
+    'db' => 'vol_large',   
+    'dt' => 'quantity_conv' ,
+    'formatter' => function($d, $row) {
+      return currency_format($row['vol_large']). '.' .currency_format($row['vol_medium']). '.' .currency_format($row['vol_small']);
     }
   ),
   array( 

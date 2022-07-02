@@ -222,6 +222,9 @@ include ("left_sidebar.php");
 											<th class="w-10">
 								            	<?php echo trans('label_RAK'); ?>
 								            </th>
+								            <th class="w-10">
+								            	<?php echo trans('label_stok_conversi'); ?>
+								            </th>
 											<th class="w-10">
 								            	<?php echo trans('label_UOM_Large'); ?>
 								            </th>
@@ -289,6 +292,9 @@ include ("left_sidebar.php");
 											<th class="w-10">
 								            	<?php echo trans('label_RAK'); ?>
 											</th>
+								            <th class="w-10">
+								            	<?php echo trans('label_stok_conversi'); ?>
+								            </th>
 											<th class="w-10">
 								            	<?php echo trans('label_UOM_Large'); ?>
 								            </th>
