@@ -656,14 +656,14 @@ class ModelInvoice extends Model
     public function getInvoiceItems($invoice_id, $store_id = null)
     {
         $store_id = $store_id ? $store_id : store_id();
-        $statement = $this->db->prepare("SELECT * FROM `selling_item` WHERE `store_id` = ? AND `invoice_id` = ?");
+        $statement = $this->db->prepare("SELECT A.*,B.unit_name FROM `selling_item` A LEFT JOIN units B on A.sell_unit_id=B.unit_id WHERE A.store_id = ? AND A.invoice_id = ?");
         $statement->execute(array($store_id, $invoice_id));
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
         $array = array();
         $i = 0;
         foreach ($rows as $row) {
             $array[$i] = $row;
-            $array[$i]['unitName'] = get_the_unit(get_the_product($row['item_id'])['unit_id'], 'unit_name');
+            $array[$i]['unitName'] = $row['unit_name'];
             $i++;
         }
         return $array;
