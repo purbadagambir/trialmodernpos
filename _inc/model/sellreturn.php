@@ -53,7 +53,7 @@ class ModelSellreturn extends Model
 	public function getInvoiceItemsHTML($reference_no, $store_id = null)
     {
         $store_id = $store_id ? $store_id : store_id();
-        $statement = $this->db->prepare("SELECT * FROM `return_items` WHERE `store_id` = ? AND `reference_no` = ?");
+        $statement = $this->db->prepare("SELECT A.*,B.unit_name FROM `return_items`  A LEFT JOIN units B on A.return_unit_id=B.unit_id WHERE A.store_id = ? AND A.reference_no = ?");
         $statement->execute(array($store_id, $reference_no));
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
         $i = 0;
@@ -73,7 +73,7 @@ class ModelSellreturn extends Model
             $html .= '<tr class="bg-success">';
             $html .= '<td class="text-center" style="padding:0 2px;">' . $row['item_name'] . '</td>';
             $html .= '<td class="text-right" style="padding:0 2px;">' . currency_format($row['item_price']) . '</td>';
-            $html .= '<td class="text-center" style="padding:0 2px;">' . currency_format($row['item_quantity']) . ' ' . get_the_unit(get_the_product($row['item_id'])['unit_id'], 'unit_name') . '</td>';
+            $html .= '<td class="text-center" style="padding:0 2px;">' . currency_format($row['item_quantity']) . ' ' . $row['unit_name'] . '</td>';
             $html .= '<td class="text-right" style="padding:0 2px;">' . currency_format($row['item_total']) . '</td>';
             $html .= '</tr>';
             $sell += $row['item_price'];
