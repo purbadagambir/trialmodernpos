@@ -761,10 +761,11 @@ window.angularApp.controller("PosController", [
                             let total_discount = 0;
                             let total_price = 0;
                             for (let i = 0; i < $scope.itemArray.length; i++) {
+                                total_quantity += $scope.itemArray[i].quantity;
                                 total_discount += $scope.itemArray[i].discount_amount;
                                 total_price += $scope.itemArray[i].subTotal;
                             }
-                            $scope.totalQuantity = total_qty;
+                            $scope.totalQuantity = total_quantity;
                             $scope.totalDiscount = total_discount;
                             $scope.totalAmount = total_price;
                         }
