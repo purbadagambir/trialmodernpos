@@ -656,14 +656,14 @@ class ModelInvoice extends Model
     public function getInvoiceItems($invoice_id, $store_id = null)
     {
         $store_id = $store_id ? $store_id : store_id();
-        $statement = $this->db->prepare("SELECT * FROM `selling_item` WHERE `store_id` = ? AND `invoice_id` = ?");
+        $statement = $this->db->prepare("SELECT A.*,B.unit_name FROM `selling_item` A LEFT JOIN units B on A.sell_unit_id=B.unit_id WHERE A.store_id = ? AND A.invoice_id = ?");
         $statement->execute(array($store_id, $invoice_id));
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
         $array = array();
         $i = 0;
         foreach ($rows as $row) {
             $array[$i] = $row;
-            $array[$i]['unitName'] = get_the_unit(get_the_product($row['item_id'])['unit_id'], 'unit_name');
+            $array[$i]['unitName'] = $row['unit_name'];
             $i++;
         }
         return $array;
@@ -672,7 +672,8 @@ class ModelInvoice extends Model
     public function getInvoiceItemsHTML($invoice_id, $store_id = null)
     {
         $store_id = $store_id ? $store_id : store_id();
-        $statement = $this->db->prepare("SELECT * FROM `selling_item` WHERE `store_id` = ? AND `invoice_id` = ?");
+        $statement = $this->db->prepare("SELECT A.*,B.unit_name FROM `selling_item` A LEFT JOIN units B on A.sell_unit_id=B.unit_id 
+        WHERE A.store_id = ? AND A.invoice_id = ?");
         $statement->execute(array($store_id, $invoice_id));
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
         $i = 0;
@@ -692,7 +693,7 @@ class ModelInvoice extends Model
             $html .= '<tr class="bg-success">';
             $html .= '<td class="text-center" style="padding:0 2px;">' . $row['item_name'] . '</td>';
             $html .= '<td class="text-right" style="padding:0 2px;">' . number_format($row['item_price']) . '</td>';
-            $html .= '<td class="text-center" style="padding:0 2px;">' . number_format($row['item_quantity']) . ' ' . get_the_unit(get_the_product($row['item_id'])['unit_id'], 'unit_name') . '</td>';
+            $html .= '<td class="text-center" style="padding:0 2px;">' . number_format($row['item_quantity']) . ' ' . $row['unit_name'] . '</td>';
             $html .= '<td class="text-right" style="padding:0 2px;">' . number_format($row['item_total']) . '</td>';
             $html .= '</tr>';
             $sell += $row['item_price'];
