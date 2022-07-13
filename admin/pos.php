@@ -444,7 +444,7 @@ if ($order_printer_ids) {
 														<button class="btn btn-xs btn-up" ng-click="addItemToInvoice(items.id, items.unit_id, items.vol_unit)" title="Increase">
 															<span class="fa fa-angle-up"></span>
 														</button>
-														<input type="text" name="item_price_{{ items.id }}" class="item_quantity text-center" id="item_quantity_{{ items.id }}" value="{{ items.quantity }}" data-itemid="{{ items.id }}" onClick="this.select();" ondrop="return false;" onpaste="return false;" style="width:30px;max-width:30px;border-radius: 50px;border: 1px solid #ddd;padding-top:0;padding-bottom:0;">
+														<input type="text" disabled name="item_price_{{ items.id }}" class="item_quantity text-center" id="item_quantity_{{ items.id }}" value="{{ items.quantity }}" data-itemid="{{ items.id }}" onClick="this.select();" ondrop="return false;" onpaste="return false;" style="width:30px;max-width:30px;border-radius: 50px;border: 1px solid #ddd;padding-top:0;padding-bottom:0;">
 														<button class="btn btn-xs btn-down increasebtn{{ items.id }}" ng-click="DecreaseItemFromInvoice(items.id)" title="Decrease">
 															<span class="fa fa-angle-down"></span>
 														</button>
