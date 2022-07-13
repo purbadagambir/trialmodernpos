@@ -601,7 +601,6 @@ window.angularApp.controller("PosController", [
                             item.taxamount = taxamount;
                             item.price = parseFloat(response.data.sell_price) + additonalTaxAmount;
                             item.quantity = qty;
-                            item.unit_id = unit_id;
 
                             if (response.data.discount_active == 1) {
                                 item.sell_discount = response.data.sell_discount;
@@ -760,12 +759,13 @@ window.angularApp.controller("PosController", [
 
                             let total_discount = 0;
                             let total_price = 0;
+                            let total_qty = 0;
                             for (let i = 0; i < $scope.itemArray.length; i++) {
-                                total_quantity += $scope.itemArray[i].quantity;
+                                total_qty += $scope.itemArray[i].quantity;
                                 total_discount += $scope.itemArray[i].discount_amount;
                                 total_price += $scope.itemArray[i].subTotal;
                             }
-                            $scope.totalQuantity = total_quantity;
+                            $scope.totalQuantity = total_qty;
                             $scope.totalDiscount = total_discount;
                             $scope.totalAmount = total_price;
                         }
@@ -918,7 +918,6 @@ window.angularApp.controller("PosController", [
                     total_discount += $scope.itemArray[i].discount_amount;
                     total_price += $scope.itemArray[i].subTotal;
                 }
-                console.log(total_price);
                 $scope.totalQuantity = total_qty;
                 $scope.totalDiscount = total_discount;
                 $scope.totalAmount = total_price;
