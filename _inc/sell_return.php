@@ -200,10 +200,10 @@ if ($request->server['REQUEST_METHOD'] == 'POST' && $request->get['action_type']
       }
       $titem_tax += $item_tax;
 
-      $statement = db()->prepare("UPDATE `selling_item` SET `return_quantity` = `return_quantity`+$item_quantity WHERE `id` = ?");
+      $statement = db()->prepare("UPDATE `selling_item` SET `return_quantity` = `return_quantity`+$return_qty_conversi WHERE `id` = ?");
       $statement->execute(array($invoice_item['id']));
 
-      $statement = db()->prepare("UPDATE `product_to_store` SET `quantity_in_stock` = `quantity_in_stock` + $item_quantity_add WHERE `store_id` = ? AND `product_id` = ?");
+      $statement = db()->prepare("UPDATE `product_to_store` SET `quantity_in_stock` = `quantity_in_stock` + $return_qty_conversi WHERE `store_id` = ? AND `product_id` = ?");
       $statement->execute(array($store_id, $item_id));
 
       //UPDATE BY AKBAR 25/06/22
