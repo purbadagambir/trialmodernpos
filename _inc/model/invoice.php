@@ -220,6 +220,7 @@ class ModelInvoice extends Model
                 $total_purchase_price += ($product_info['purchase_price'] * $total_qty_conversi);
             }
             $product_price = $product['item_price'];
+            $product_total_brutto = $product['item_brutto'];
             $product_total = $product['item_total'];
             $discount_item = ($product['item_price'] * $product['item_quantity']) - $product['item_total'];
             $purchase_invoice_id = NULL;
@@ -316,8 +317,8 @@ class ModelInvoice extends Model
                 $installment_quantity = $product_quantity;
             }
 
-            $statement = $this->db->prepare("INSERT INTO `selling_item` (invoice_id, store_id, item_id, category_id, brand_id, sup_id, item_name, item_purchase_price, item_price, item_discount, item_tax, tax_method, taxrate_id, tax, gst, cgst, sgst, igst, item_quantity, item_total, purchase_invoice_id, installment_quantity,sell_unit_id,sell_vol_unit,sell_qty_conversi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $statement->execute(array($invoice_id, $store_id, $product_id, $category_id, $brand_id, $sup_id, $product_name, $item_purchase_price, $product_price, $discount_item, $tax, $tax_method, $taxrate_id, $taxrate, $taxrate, $cgst, $sgst, $igst, $product_quantity, $product_total, $purchase_invoice_id, $installment_quantity, $product_unit_id, $product_volume, $total_qty_conversi));
+            $statement = $this->db->prepare("INSERT INTO `selling_item` (invoice_id, store_id, item_id, category_id, brand_id, sup_id, item_name, item_purchase_price, item_price, item_discount, item_tax, tax_method, taxrate_id, tax, gst, cgst, sgst, igst, item_quantity, item_total, purchase_invoice_id, installment_quantity,sell_unit_id,sell_vol_unit,sell_qty_conversi,sell_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $statement->execute(array($invoice_id, $store_id, $product_id, $category_id, $brand_id, $sup_id, $product_name, $item_purchase_price, $product_price, $discount_item, $tax, $tax_method, $taxrate_id, $taxrate, $taxrate, $cgst, $sgst, $igst, $product_quantity, $product_total, $purchase_invoice_id, $installment_quantity, $product_unit_id, $product_volume, $total_qty_conversi, $product_total_brutto));
 
             // INSTALLMENT QUANTITY CUSTOMIZATION
             if (INSTALLMENT && $request->post['is_installment_order'] && $due > 0) {
@@ -336,7 +337,7 @@ class ModelInvoice extends Model
         }
 
         /* Update By Henry 17-05-2022 */
-        $statement = $this->db->prepare("SELECT SUM(item_purchase_price) AS total_purchase_price, sum(item_discount) as total_discount FROM `selling_item` WHERE `invoice_id` = ?");
+        $statement = $this->db->prepare("SELECT SUM(item_purchase_price) AS total_purchase_price, sum(sell_amount) as total_brutto, sum(item_discount) as total_discount, sum(item_total) as total_subtotal FROM `selling_item` WHERE `invoice_id` = ?");
         $statement->execute(array($invoice_id));
         $total = $statement->fetch(PDO::FETCH_ASSOC);
         /* Total purchase Item sudah di looping diatas tetapi ada BUGS jikalau terjadi stock yang harga belinya berbeda
@@ -345,6 +346,8 @@ class ModelInvoice extends Model
         */
         $total_purchase_price = $total['total_purchase_price'];
         $total_discount = $total['total_discount'];
+        $total_brutto = $total['total_brutto'];
+        $subtotal = $total['total_subtotal'];
 
         $capital = ($total_purchase_price / ($subtotal - $discount_amount)) * ($paid_amount - $shipping_amount - $others_charge);
         $profit = ($subtotal - $discount_amount) - $total_purchase_price;
@@ -355,8 +358,8 @@ class ModelInvoice extends Model
         $statement = $this->db->prepare("INSERT INTO `selling_info` (invoice_id, store_id, customer_id, customer_mobile, invoice_note, total_items, payment_status, is_installment, created_by, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $statement->execute(array($invoice_id, $store_id, $customer_id, $customer_mobile, $invoice_note, $total_items, $payment_status, $is_installment_order, $user_id, $created_at));
 
-        $statement = $this->db->prepare("INSERT INTO `selling_price` (invoice_id, store_id, subtotal, discount_type, discount_amount, interest_amount, interest_percentage, item_tax, order_tax, cgst, sgst, igst, total_purchase_price, shipping_type, shipping_amount, others_charge, previous_due, payable_amount, paid_amount, due, prev_due_paid, profit, balance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $statement->execute(array($invoice_id, $store_id, $subtotal, $discount_type, $total_discount, $installment_interest_amount, $installment_interest_percentage, $item_tax, $order_tax, $tcgst, $tsgst, $tigst, $total_purchase_price, $shipping_type, $shipping_amount, $others_charge, $previous_due, $payable_amount, $paid_amount, $due, $prev_due_paid, $profit, $balance));
+        $statement = $this->db->prepare("INSERT INTO `selling_price` (invoice_id, store_id, subtotal, discount_type, discount_amount, interest_amount, interest_percentage, item_tax, order_tax, cgst, sgst, igst, total_purchase_price, shipping_type, shipping_amount, others_charge, previous_due, payable_amount, paid_amount, due, prev_due_paid, profit, balance,total_brutto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $statement->execute(array($invoice_id, $store_id, $subtotal, $discount_type, $total_discount, $installment_interest_amount, $installment_interest_percentage, $item_tax, $order_tax, $tcgst, $tsgst, $tigst, $total_purchase_price, $shipping_type, $shipping_amount, $others_charge, $previous_due, $payable_amount, $paid_amount, $due, $prev_due_paid, $profit, $balance, $total_brutto));
 
         /* Update by Akbar @ 12/05/2022 */
         $statement = $this->db->prepare("UPDATE `selling_info` SET `total_points` = ? WHERE `invoice_id` = ? AND `store_id` = ?");

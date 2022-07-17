@@ -1,15 +1,15 @@
 <?php
 $permissions = array(
   'report' => array(
-    'read_recent_activities' => 'Recent activities', 
-    'read_dashboard_accounting_report' => 'Dashboard Accounting Report', 
-    'read_sell_report' => 'Sell Report', 
-    'read_overview_report' => 'Overview Report', 
+    'read_recent_activities' => 'Recent activities',
+    'read_dashboard_accounting_report' => 'Dashboard Accounting Report',
+    'read_sell_report' => 'Sell Report',
+    'read_overview_report' => 'Overview Report',
     'read_collection_report' => 'Collec. Report',
     'read_full_collection_report' => 'Full Collec. Report',
     'read_customer_due_collection_report' => 'Customer Due Collection RPT',
     'read_supplier_due_paid_report' => 'Suppler Due Paid RPT',
-    'read_analytics' => 'Read Analytics', 
+    'read_analytics' => 'Read Analytics',
     'read_overview_report' => 'Overview Report',
     'read_purchase_report' => 'Purchase Report',
     'read_purchase_payment_report' => 'Purchase Payment Report',
@@ -79,9 +79,9 @@ $permissions = array(
     'read_sell_return' => 'View Return List',
     'update_sell_return' => 'Update Return',
     'delete_sell_return' => 'Delete Return',
-    'sms_sell_invoice' => 'Send Sell Invoice via SMS', 
-    'email_sell_invoice' => 'Send Sell Invoice via Email', 
-	  'read_sell_log' => 'Read Sell Log',
+    'sms_sell_invoice' => 'Send Sell Invoice via SMS',
+    'email_sell_invoice' => 'Send Sell Invoice via Email',
+    'read_sell_log' => 'Read Sell Log',
   ),
   'purchase' => array(
     'create_purchase_invoice' => 'Create Invoice',
@@ -90,7 +90,7 @@ $permissions = array(
     'delete_purchase_invoice' => 'Delete Invoice',
     'purchase_payment' => 'Payment',
     'create_purchase_due' => 'Create Due',
-    'create_purchase_return' => 'Create Return',
+    'create_purchase_return' => 'Create Purchase Return',
     'read_purchase_return' => 'View Return List',
     'update_purchase_return' => 'Update Return',
     'delete_purchase_return' => 'Delete Return',
@@ -113,15 +113,15 @@ $permissions = array(
   ),
   'product' => array(
     'read_product' => 'Read Product List',
-    'create_product' => 'Create Product', 
-    'update_product' => 'Update Product', 
+    'create_product' => 'Create Product',
+    'update_product' => 'Update Product',
     'delete_product' => 'Delete Product',
     'import_product' => 'Import Product',
     'product_bulk_action' => 'Product Bulk Action',
     'delete_all_product' => 'Delete All Product',
     'read_category' => 'Read Category List',
-    'create_category' => 'Create Category', 
-    'update_category' => 'Update Category', 
+    'create_category' => 'Create Category',
+    'update_category' => 'Update Category',
     'delete_category' => 'Delete Category',
     'read_stock_alert' => 'Read Stock Alert',
     'read_expired_product' => 'Read Expired Product List',
@@ -171,8 +171,8 @@ $permissions = array(
   'customer' => array(
     'read_customer' => 'Read Customer List',
     'read_customer_profile' => 'Read Customer Profile',
-    'create_customer' => 'Create Customer', 
-    'update_customer' => 'Update Customer', 
+    'create_customer' => 'Create Customer',
+    'update_customer' => 'Update Customer',
     'delete_customer' => 'Delete Customer',
     'add_customer_balance' => 'Add Balance',
     'substract_customer_balance' => 'Substract Balance',
@@ -180,16 +180,16 @@ $permissions = array(
   ),
   'user' => array(
     'read_user' => 'Read User List',
-    'create_user' => 'Create User', 
-    'update_user' => 'Update User', 
-    'delete_user' => 'Delete User', 
+    'create_user' => 'Create User',
+    'update_user' => 'Update User',
+    'delete_user' => 'Delete User',
     'change_password' => 'Change Password',
   ),
   'usergroup' => array(
     'read_usergroup' => 'Read Usergroup List',
-    'create_usergroup' => 'Create Usergroup', 
-    'update_usergroup' => 'Update Usergroup', 
-    'delete_usergroup' => 'Delete Usergroup', 
+    'create_usergroup' => 'Create Usergroup',
+    'update_usergroup' => 'Update Usergroup',
+    'delete_usergroup' => 'Delete Usergroup',
   ),
   'currency' => array(
     'read_currency' => 'Read Currency',
@@ -261,10 +261,10 @@ $permissions = array(
 </h4>
 
 <form class="form-horizontal" id="user-group-form" action="user_group.php" method="post">
-  
+
   <input type="hidden" id="action_type" name="action_type" value="UPDATE">
   <input type="hidden" id="group_id" name="group_id" value="<?php echo $usergroup['group_id']; ?>">
-  
+
   <div class="box-body">
     <div class="form-group">
       <label for="name" class="col-sm-3 control-label">
@@ -280,12 +280,12 @@ $permissions = array(
         <?php echo sprintf(trans('label_slug'), null); ?><i class="required">*</i>
       </label>
       <div class="col-sm-7">
-        <?php if ( $usergroup['slug'] == 'admin' ||  $usergroup['slug'] == 'cashier'): ?>
-          <input type="hidden" class="form-control" id="slug" name="slug" value="<?php echo $usergroup['slug'];?>">
-          <h4><b><?php echo $usergroup['slug'];?></b></h4>
-        <?php else:?>
-          <input type="text" class="form-control" id="slug" value="<?php echo $usergroup['slug'] ? $usergroup['slug'] : "{{ categoryName | strReplace:' ':'_' | lowercase }}"; ?>" name="slug" required<?php echo $usergroup['slug'] == 'admin' ||  $usergroup['slug'] == 'cashier' ? ' disabled' : null;?>>
-        <?php endif;?>
+        <?php if ($usergroup['slug'] == 'admin' ||  $usergroup['slug'] == 'cashier') : ?>
+          <input type="hidden" class="form-control" id="slug" name="slug" value="<?php echo $usergroup['slug']; ?>">
+          <h4><b><?php echo $usergroup['slug']; ?></b></h4>
+        <?php else : ?>
+          <input type="text" class="form-control" id="slug" value="<?php echo $usergroup['slug'] ? $usergroup['slug'] : "{{ categoryName | strReplace:' ':'_' | lowercase }}"; ?>" name="slug" required<?php echo $usergroup['slug'] == 'admin' ||  $usergroup['slug'] == 'cashier' ? ' disabled' : null; ?>>
+        <?php endif; ?>
       </div>
     </div>
 
@@ -309,27 +309,27 @@ $permissions = array(
 
     <div class="form-group permission-list">
       <?php foreach ($permissions as $type => $lists) : ?>
-      <div class="col-sm-3">
-        <h4>
-          <input type="checkbox" id="<?php echo $type; ?>_action" onclick="$('.<?php echo $type; ?>').prop('checked', this.checked);">
-          <label for="<?php echo $type; ?>_action">
-            <?php echo str_replace('_', ' ', $type); ?>
-          </label>
-        </h4>
-        <div class="filter-searchbox">
+        <div class="col-sm-3">
+          <h4>
+            <input type="checkbox" id="<?php echo $type; ?>_action" onclick="$('.<?php echo $type; ?>').prop('checked', this.checked);">
+            <label for="<?php echo $type; ?>_action">
+              <?php echo str_replace('_', ' ', $type); ?>
+            </label>
+          </h4>
+          <div class="filter-searchbox">
             <input ng-model="search_<?php echo $type; ?>" class="form-control" type="text" placeholder="<?php echo trans('search'); ?>">
-        </div>
-        <div class="well well-sm permission-well">
-          <div filter-list="search_<?php echo $type; ?>">
-            <?php foreach ($lists as $key => $name) : ?>
-              <div>
-                <input type="checkbox" class="<?php echo $type; ?>" id="<?php echo $key; ?>" value="true" name="access[<?php echo $key; ?>]"<?php echo isset($the_permissions['access'][$key]) ? ' checked' : null; ?>>
-                <label for="<?php echo $key; ?>"><?php echo ucfirst($name); ?></label>
-              </div>
-            <?php endforeach; ?>
+          </div>
+          <div class="well well-sm permission-well">
+            <div filter-list="search_<?php echo $type; ?>">
+              <?php foreach ($lists as $key => $name) : ?>
+                <div>
+                  <input type="checkbox" class="<?php echo $type; ?>" id="<?php echo $key; ?>" value="true" name="access[<?php echo $key; ?>]" <?php echo isset($the_permissions['access'][$key]) ? ' checked' : null; ?>>
+                  <label for="<?php echo $key; ?>"><?php echo ucfirst($name); ?></label>
+                </div>
+              <?php endforeach; ?>
+            </div>
           </div>
         </div>
-      </div>
       <?php endforeach; ?>
     </div>
   </div>

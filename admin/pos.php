@@ -444,7 +444,7 @@ if ($order_printer_ids) {
 														<button class="btn btn-xs btn-up" ng-click="addItemToInvoice(items.id, items.unit_id, items.vol_unit)" title="Increase">
 															<span class="fa fa-angle-up"></span>
 														</button>
-														<input type="text" disabled name="item_price_{{ items.id }}" class="item_quantity text-center" id="item_quantity_{{ items.id }}" value="{{ items.quantity }}" data-itemid="{{ items.id }}" onClick="this.select();" ondrop="return false;" onpaste="return false;" style="width:30px;max-width:30px;border-radius: 50px;border: 1px solid #ddd;padding-top:0;padding-bottom:0;">
+														<input type="text" name="item_price_{{ items.id }}" class="item_quantity text-center" id="item_quantity_{{ items.id }}" value="{{ items.quantity }}" data-itemid="{{ items.id }}" onClick="this.select();" ondrop="return false;" onpaste="return false;" style="width:30px;max-width:30px;border-radius: 50px;border: 1px solid #ddd;padding-top:0;padding-bottom:0;">
 														<button class="btn btn-xs btn-down increasebtn{{ items.id }}" ng-click="DecreaseItemFromInvoice(items.id)" title="Decrease">
 															<span class="fa fa-angle-down"></span>
 														</button>
@@ -510,11 +510,14 @@ if ($order_printer_ids) {
 													<td class="text-right" width="20%">
 														{{ totalItem }} ({{ totalQuantity }})
 													</td>
-													<td width="30%">
+													<td class="text-right" width="20%">
+														{{ totalBrutto | number }}
+													</td>
+													<td class="text-right" width="10%">
 														{{ totalDiscount | number }}
 														<!-- <?php echo trans('label_total'); ?> -->
 													</td>
-													<td class="text-right" width="20%">
+													<td class="text-right" width="30%">
 														{{ totalAmount  | number }}
 													</td>
 												</tr>
@@ -529,7 +532,7 @@ if ($order_printer_ids) {
 													<td>
 														<?php echo trans('label_tax_amount'); ?> (%)
 													</td>
-													<td class="text-right">
+													<td class="text-right" colspan="2" width="20%">
 														<input ng-init="taxInput=<?php echo get_preference('tax'); ?>" disabled ng-change="addTax()" onClick="this.select();" type="text" name="tax-amount" ng-model="taxInput" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" autocomplete="off">
 													</td>
 												</tr>
@@ -543,12 +546,12 @@ if ($order_printer_ids) {
 													<td>
 														<?php echo trans('label_others_charge'); ?>
 													</td>
-													<td class="text-right">
+													<td class="text-right" colspan="2">
 														<input class="text-center others-charge" ng-change="addOthersCharge()" onClick="this.select();" type="text" name="others-charge" ng-model="othersChargeInput" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" autocomplete="off">
 													</td>
 												</tr>
 												<tr class="bg-gray">
-													<td colspan="3">
+													<td colspan="4">
 														<?php echo trans('label_total_payable'); ?>
 													</td>
 													<td class="text-right">

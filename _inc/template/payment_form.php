@@ -157,11 +157,12 @@ $customer_id = isset($request->get['customer_id']) ? $request->get['customer_id'
 									<input type="hidden" name="product-item['{{ items.id }}'][item_quantity]" value="{{ items.quantity }}">
 									<input type="hidden" name="product-item['{{ items.id }}'][item_unit_id]" value="{{ items.unit_id }}">
 									<input type="hidden" name="product-item['{{ items.id }}'][vol_unit]" value="{{ items.vol_unit }}">
+									<input type="hidden" name="product-item['{{ items.id }}'][item_brutto]" value="{{ items.brutto  | formatDecimal:2 }}">
 									<input type="hidden" name="product-item['{{ items.id }}'][item_total]" value="{{ items.subTotal  | formatDecimal:2 }}">
 									{{ $index+1 }}
 								</td>
 								<td class="w-70">{{ items.name }} (x{{ items.quantity }} {{ items.unitName }})</td>
-								<td class="text-right w-20">{{ items.subTotal  | number }}</td>
+								<td class="text-right w-20">{{ items.brutto  | number }}</td>
 							</tr>
 						</tbody>
 						<tfoot>
@@ -170,15 +171,15 @@ $customer_id = isset($request->get['customer_id']) ? $request->get['customer_id'
 									<?php echo trans('label_subtotal'); ?>
 								</th>
 								<input type="hidden" name="sub-total" value="{{ totalAmount }}">
-								<td class="text-right w-40">{{ totalAmount  | number }}</td>
+								<td class="text-right w-40">{{ totalBrutto  | number }}</td>
 							</tr>
 							<tr>
 								<th class="text-right w-60" colspan="2">
 									<?php echo trans('label_discount'); ?> {{ discountType  == 'percentage' ? '('+discountAmount+'%)' : '' }}
 								</th>
 								<input type="hidden" name="discount-type" value="{{ discountType }}">
-								<input type="hidden" name="discount-amount" value="{{ discountType  == 'percentage' ? _percentage(totalAmount, discountAmount) : discountAmount }}">
-								<td class="text-right w-40">{{ discountType  == 'percentage' ? (_percentage(totalAmount, discountAmount) | number) : (discountAmount | number) }}</td>
+								<input type="hidden" name="discount-amount" value="{{ totalDiscount | number }}">
+								<td class="text-right w-40">{{ totalDiscount | number }}</td>
 							</tr>
 							<tr>
 								<th class="text-right w-60" colspan="2">
