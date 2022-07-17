@@ -564,6 +564,8 @@ function get_postemplate_data($invoice_id)
         foreach ($item as $key => $val) {
             if (in_array($key, array('sl'))) {
                 $new_item[$key] = $val;
+            } elseif (in_array($key, array('item_quantity'))) {
+                $new_item[$key] = number_format($item['item_quantity']);
             } elseif (in_array($key, array('item_discount'))) {
                 $new_item[$key] = number_format($item['item_discount']);
             } else if (in_array($key, array('item_price'))) {
