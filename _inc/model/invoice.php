@@ -212,7 +212,7 @@ class ModelInvoice extends Model
             $product_name = $product['item_name'];
             $product_unit_id = $product['item_unit_id'];
             $product_volume = $product['vol_unit'] ? $product['vol_unit'] : 1;
-            $total_qty_conversi = ($product['item_quantity'] * $product['vol_unit']) ? $product['vol_unit'] : 1;
+            $total_qty_conversi = ($product['item_quantity'] * $product['vol_unit']);
             $product_quantity = $product['item_quantity'];
             $quantity_substract = $total_qty_conversi;
             if ($product['p_type'] == 'service') {
