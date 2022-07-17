@@ -517,7 +517,7 @@ function get_postemplate_data($invoice_id)
         'created_by' => get_the_user($invoice_info['created_by'], 'username'),
         'invoice_note' => $invoice_info['invoice_note'],
         'footer_text' => get_preference('invoice_footer_text'),
-
+        'total_brutto' => number_format($invoice_info['total_brutto']),
         'subtotal' => number_format($invoice_info['subtotal'] - $invoice_info['item_tax']),
         'discount_type' => ucfirst($invoice_info['discount_type']),
         'discount_amount' => number_format($invoice_info['discount_amount']),
@@ -564,6 +564,8 @@ function get_postemplate_data($invoice_id)
         foreach ($item as $key => $val) {
             if (in_array($key, array('sl'))) {
                 $new_item[$key] = $val;
+            } elseif (in_array($key, array('item_discount'))) {
+                $new_item[$key] = number_format($item['item_discount']);
             } else if (in_array($key, array('item_price'))) {
                 $new_item[$key] = number_format($val - $item['item_tax']);
             } else if (in_array($key, array('item_total'))) {
