@@ -156,7 +156,7 @@ $customer_id = isset($request->get['customer_id']) ? $request->get['customer_id'
 									<input type="hidden" name="product-item['{{ items.id }}'][item_discount]" value="{{ items.discount  | formatDecimal:2 }}">
 									<input type="hidden" name="product-item['{{ items.id }}'][item_quantity]" value="{{ items.quantity }}">
 									<input type="hidden" name="product-item['{{ items.id }}'][item_unit_id]" value="{{ items.unit_id }}">
-									<input type="hidden" name="product-item['{{ items.id }}'][vol_unit]" value="{{ items.vol_unit }}">
+									<input type="hidden" name="product-item['{{ items.id }}'][item_vol_unit]" value="{{ items.vol_unit }}">
 									<input type="hidden" name="product-item['{{ items.id }}'][item_brutto]" value="{{ items.brutto  | formatDecimal:2 }}">
 									<input type="hidden" name="product-item['{{ items.id }}'][item_total]" value="{{ items.subTotal  | formatDecimal:2 }}">
 									{{ $index+1 }}
