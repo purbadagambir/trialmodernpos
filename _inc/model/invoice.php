@@ -380,7 +380,7 @@ class ModelInvoice extends Model
                 $customer_balance = get_customer_previus_balance($customer_id);
                 $reference_no = generate_customer_transacton_ref_no('substract');
 
-                $new_customer_balance = $balance_to_credit + $customer_balance['credit'];
+                $new_customer_balance = $balance_to_credit + $customer_balance['balance'];
 
                 $statement = $this->db->prepare("INSERT INTO `customer_transactions` (customer_id, reference_no, type, pmethod_id, notes, amount, balance, store_id, ref_invoice_id, created_by, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $statement->execute(array($customer_id, $reference_no, 'add_balance', $pmethod_id, 'add while shoping', $balance_to_credit, $new_customer_balance, $store_id, $invoice_id, $user_id, $created_at));
@@ -395,6 +395,9 @@ class ModelInvoice extends Model
 
         if ($pmethod_code == 'credit' && $paid_amount > 0) {
             $statement = $this->db->prepare("UPDATE `customer_to_store` SET `balance` = `balance` - {$paid_amount} WHERE  `customer_id` = ?");
+            $statement->execute(array($customer_id));
+
+            $statement = $this->db->prepare("UPDATE `customers` SET `credit` = `credit`-{$paid_amount} WHERE `customer_id` = ?");
             $statement->execute(array($customer_id));
 
             $customer_balance = get_customer_balance($customer_id);
@@ -481,8 +484,8 @@ class ModelInvoice extends Model
         $pmethod_id = $data['pmethod-id'];
         $pmethod_code = get_the_pmethod($pmethod_id, 'code_name');
         $invoice_price = $this->getSellingPrice($invoice_id, $store_id);
-        // $discount_amount = $data['discount-amount'] ? $data['discount-amount'] : 0;
-        $discount_amount = 0;
+        $discount_amount = $data['discount-amount'] ? $data['discount-amount'] : 0;
+        // $discount_amount = 0;
         $payable_amount = $invoice_price['payable_amount'] - ($invoice_price['paid_amount'] + $invoice_price['return_amount']);
         $paid_amount = $data['paid-amount'] ? $data['paid-amount'] : 0;
         if ($discount_amount > $payable_amount) {

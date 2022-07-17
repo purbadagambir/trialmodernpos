@@ -178,8 +178,8 @@ $customer_id = isset($request->get['customer_id']) ? $request->get['customer_id'
 									<?php echo trans('label_discount'); ?> {{ discountType  == 'percentage' ? '('+discountAmount+'%)' : '' }}
 								</th>
 								<input type="hidden" name="discount-type" value="{{ discountType }}">
-								<input type="hidden" name="discount-amount" value="{{ totalDiscount | number }}">
-								<td class="text-right w-40">{{ totalDiscount | number }}</td>
+								<input type="hidden" name="discount-amount" value="{{ totalDiscount }}">
+								<td class="text-right w-40">{{ totalDiscount }}</td>
 							</tr>
 							<tr>
 								<th class="text-right w-60" colspan="2">

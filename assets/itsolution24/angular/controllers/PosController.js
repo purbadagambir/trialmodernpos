@@ -754,6 +754,7 @@ window.angularApp.controller("PosController", [
                             item.vol_unit = vol;
                             item.price = price;
                             discount_amount = (price * quantity) * (discount / 100);
+                            item.brutto = price * quantity;
                             item.discount_amount = discount_amount;
                             $("#item_discount_" + id).val(discount_amount);
                             item.subTotal = (price * quantity) - discount_amount;
@@ -761,12 +762,15 @@ window.angularApp.controller("PosController", [
                             let total_discount = 0;
                             let total_price = 0;
                             let total_qty = 0;
+                            let total_brutto = 0;
                             for (let i = 0; i < $scope.itemArray.length; i++) {
                                 total_qty += $scope.itemArray[i].quantity;
+                                total_brutto += $scope.itemArray[i].brutto;
                                 total_discount += $scope.itemArray[i].discount_amount;
                                 total_price += $scope.itemArray[i].subTotal;
                             }
                             $scope.totalQuantity = total_qty;
+                            $scope.totalBrutto = total_brutto;
                             $scope.totalDiscount = total_discount;
                             $scope.totalAmount = total_price;
                         }

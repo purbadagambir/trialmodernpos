@@ -195,7 +195,7 @@ class ModelCustomer extends Model
 	/*Update by Henry @09-06-2022*/
 	public function getPreviusBalance($customer_id)
 	{
-		$statement = $this->db->prepare("SELECT * FROM `customers` WHERE `customer_id` = ? ");
+		$statement = $this->db->prepare("SELECT * FROM `customer_transactions` WHERE `customer_id` = ? order by id DESC limit 1 ");
 		$statement->execute(array($customer_id));
 		$customer = $statement->fetch(PDO::FETCH_ASSOC);
 		return $customer;
