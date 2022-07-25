@@ -346,7 +346,7 @@ if ($request->server['REQUEST_METHOD'] == 'POST' && $request->get['action_type']
       <?php endif; ?>
     </div>
     <div class="copyright text-center">
-      <p>&copy; <a href="http://pondo.co.id">Pondo.co.id</a>, v<?php echo settings('version'); ?></p>
+      <p>&copy; <a href="https://pondo.co.id">Pondo.co.id</a>, v<?php echo settings('version'); ?></p>
     </div>
   </section>
 

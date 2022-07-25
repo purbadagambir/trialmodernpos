@@ -32,7 +32,39 @@ class ModelIncome extends Model
 		$income = isset($row['total']) ? $row['total'] : 0;
 		return $income;
 	}
-
+	public function getTotalpoint($from, $to, $store_id = null) 
+	{	
+		$store_id = $store_id ? $store_id : store_id();
+		
+		// Point
+		$where_query = "store_id = '$store_id'";
+		if ($from) {
+			$where_query .= date_range_filter($from, $to);
+		}
+		$statement = $this->db->prepare("select sum(`total_points`) as total from `selling_info` 
+		WHERE  {$where_query}");
+			$statement->execute(array());
+			$row = $statement->fetch(PDO::FETCH_ASSOC);
+			$total = isset($row['total']) ? $row['total'] : 0;
+			return $total;
+	}
+	
+	public function getTotalcredit($from, $to, $store_id = null) 
+	{	
+		$store_id = $store_id ? $store_id : store_id();
+		
+		// Point
+		$where_query = "store_id = '$store_id'";
+		if ($from) {
+			$where_query .= date_range_customer_transaction_filter($from, $to);
+		}
+		$statement = $this->db->prepare("select sum(`amount`) as total from `customer_transactions` 
+		WHERE  {$where_query}");
+			$statement->execute(array());
+			$row = $statement->fetch(PDO::FETCH_ASSOC);
+			$total = isset($row['total']) ? $row['total'] : 0;
+			return $total;
+	}
 	public function getTotalSubstractIncome($from, $to, $store_id = null) 
 	{	
 		$store_id = $store_id ? $store_id : store_id();
@@ -147,4 +179,5 @@ class ModelIncome extends Model
 		}
 		return $total;
 	}
+	
 }
