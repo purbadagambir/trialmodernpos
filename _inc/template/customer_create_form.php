@@ -7,13 +7,9 @@
       <?php echo trans('label_parent'); ?><i class="required">*</i>
     </label>
     <div class="col-sm-7">
-      <select id="parent_id" class="form-control" name="parent_id" >
+      <select id="parent_id" class="form-control" name="parent_id">
         <option value=""><?php echo trans('text_select'); ?></option>
-        <?php foreach (get_customers() as $the_customer) : ?>
-          <option value="<?php echo $the_customer['customer_id'];?>">
-          <?php echo $the_customer['customer_name']."-".$the_customer['customer_mobile'];?>
-        </option>
-      <?php endforeach;?>
+        <option ng-repeat="x in customers"  value="{{x.customer_id}}">{{x.customer_name}}-{{x.customer_mobile}}</option>
       </select>
     </div>
   </div>

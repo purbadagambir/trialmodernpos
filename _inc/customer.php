@@ -528,7 +528,6 @@ $columns = array(
         return '<button id="edit-customer" class="btn btn-sm btn-block btn-primary" type="button" title="'.trans('button_edit').'"><i class="fa fa-fw fa-pencil"></i></button>';
       }
   ),
-  array('db'        => 'status_network'),
   array(
       'db'        => 'customer_id',
       'dt'        => 'btn_delete',
