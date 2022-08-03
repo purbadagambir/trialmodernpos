@@ -246,16 +246,6 @@ include ("left_sidebar.php") ;
                       </th>
                     </tr>
                   </thead>
-                  <tfoot>
-                    <tr class="bg-gray">
-                      <th class="text-right" colspan="2">
-                        <?php echo trans('label_total'); ?>
-                      </th>
-                      <th class="w-20">
-                        <?php echo trans('label_amount'); ?>
-                      </th>
-                    </tr>
-                  </tfoot>
                 </table>    
               </div>
 

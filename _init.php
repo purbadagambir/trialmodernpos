@@ -2,7 +2,7 @@
 define('APPNAME', 'Modern-POS');
 $timezone = 'Asia/Jakarta';
 // $tmezone should be at line 3 
-$timezone = 'Europe/Berlin';
+//$timezone = 'Europe/Berlin';
 
 // date_default_timezone_set($timezone);
 if (function_exists('date_default_timezone_set')) date_default_timezone_set($timezone);
