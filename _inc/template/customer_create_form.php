@@ -3,17 +3,19 @@
   <div class="box-body">
 
     <div class="form-group">
-    <label for="country" class="col-sm-3 control-label">
-      <?php echo trans('label_parent'); ?><i class="required">*</i>
-    </label>
-    <div class="col-sm-7">
-      <select id="parent_id" class="form-control" name="parent_id">
-        <option value=""><?php echo trans('text_select'); ?></option>
-        <option ng-repeat="x in customers"  value="{{x.customer_id}}">{{x.customer_name}}-{{x.customer_mobile}}</option>
-      </select>
+      <label for="country" class="col-sm-3 control-label">
+        <?php echo trans('label_parent'); ?><i class="required">*</i>
+      </label>
+      <div class="col-sm-7">
+        <input ng-change="showCustomerList()" onClick="this.select();" type="text" id="parent-name" name="parent-name" ng-model="customerName" ng-disabled="isEditMode" autocomplete="off">
+        <!-- <li ng-repeat="x in customers" value="{{x.customer_id}}">{{x.customer_name}}-{{x.customer_mobile}}" </li> -->
+        <select id="parent_id" class="form-control" name="parent_id" hidden>
+          <option value=""><?php echo trans('text_select'); ?></option>
+          <option ng-repeat="x in customers" value="{{x.customer_id}}">{{x.customer_name}}-{{x.customer_mobile}}</option>
+        </select>
+      </div>
     </div>
-  </div>
-  
+
     <div class="form-group">
       <label for="customer_name" class="col-sm-3 control-label">
         <?php echo sprintf(trans('label_name'), null); ?><i class="required">*</i>
@@ -55,7 +57,7 @@
         <?php echo sprintf(trans('label_email'), null); ?> <i class="required">*</i>
       </label>
       <div class="col-sm-7">
-        <input type="email" class="form-control" id="customer_email" value="<?php echo unique_id(6);?>@gmail.com" name="customer_email">
+        <input type="email" class="form-control" id="customer_email" value="<?php echo unique_id(6); ?>@gmail.com" name="customer_email">
       </div>
     </div>
 
@@ -65,10 +67,10 @@
       </label>
       <div class="col-sm-7">
         <select id="customer_sex" name="customer_sex" class="form-control" required>
-          <option value="1"<?php echo isset($request->post['customer_sex']) && $request->post['customer_sex'] == '1' ? ' selected' : null; ?>>
+          <option value="1" <?php echo isset($request->post['customer_sex']) && $request->post['customer_sex'] == '1' ? ' selected' : null; ?>>
             <?php echo trans('label_male'); ?>
           </option>
-          <option value="2"<?php echo isset($request->post['customer_sex']) && $request->post['customer_sex'] == '2' ? ' selected' : null; ?>>
+          <option value="2" <?php echo isset($request->post['customer_sex']) && $request->post['customer_sex'] == '2' ? ' selected' : null; ?>>
             <?php echo trans('label_female'); ?>
           </option>
           <!-- Jenis kelamin hanya 2 laki dan perempuan
@@ -89,15 +91,15 @@
     </div>
 
     <?php if (get_preference('invoice_view') == 'indian_gst') : ?>
-    <div class="form-group">
-      <label for="gtin" class="col-sm-3 control-label">
-        <?php echo trans('label_gtin'); ?>
-      </label>
-      <div class="col-sm-7">
-        <input type="text" class="form-control" id="gtin" value="" name="gtin">
+      <div class="form-group">
+        <label for="gtin" class="col-sm-3 control-label">
+          <?php echo trans('label_gtin'); ?>
+        </label>
+        <div class="col-sm-7">
+          <input type="text" class="form-control" id="gtin" value="" name="gtin">
+        </div>
       </div>
-    </div>
-    <?php endif;?>
+    <?php endif; ?>
 
     <div class="form-group">
       <label for="customer_address" class="col-sm-3 control-label">
@@ -118,14 +120,14 @@
     </div>
 
     <?php if (get_preference('invoice_view') == 'indian_gst') : ?>
-    <div class="form-group">
-      <label for="customer_state" class="col-sm-3 control-label">
-        <?php echo sprintf(trans('label_state'), null); ?><i class="required">*</i>
-      </label>
-      <div class="col-sm-7">
-        <?php echo stateSelector(isset($request->post['customer_state']) ? $request->post['customer_state'] : null, 'customer_state', 'customer_state'); ?>
+      <div class="form-group">
+        <label for="customer_state" class="col-sm-3 control-label">
+          <?php echo sprintf(trans('label_state'), null); ?><i class="required">*</i>
+        </label>
+        <div class="col-sm-7">
+          <?php echo stateSelector(isset($request->post['customer_state']) ? $request->post['customer_state'] : null, 'customer_state', 'customer_state'); ?>
+        </div>
       </div>
-    </div>
     <?php else : ?>
       <div class="form-group">
         <label for="customer_state" class="col-sm-3 control-label">
@@ -146,7 +148,7 @@
       </div>
     </div>
 
-     <!-- Update by Henry @19-05-2022 dihidden dikarenakan sudah ada trigger sebagai pengganti  -->
+    <!-- Update by Henry @19-05-2022 dihidden dikarenakan sudah ada trigger sebagai pengganti  -->
     <div class="form-group" hidden>
       <label class="col-sm-3 control-label">
         <?php echo trans('label_store'); ?><i class="required">*</i>
@@ -160,16 +162,16 @@
         <div class="filter-searchbox">
           <input ng-model="search_store" class="form-control" type="text" id="search_store" placeholder="<?php echo trans('search'); ?>">
         </div>
-        <div class="well well-sm store-well"> 
+        <div class="well well-sm store-well">
           <div filter-list="search_store">
-          <?php foreach(get_stores() as $the_store) : ?>                    
-            <div class="checkbox">
-              <label>                         
-                <input type="checkbox" name="customer_store[]" value="<?php echo $the_store['store_id']; ?>"<?php echo $the_store['store_id'] == store_id() ? ' checked' : null;?>>
-                <?php echo $the_store['name']; ?>
-              </label>
-            </div>
-          <?php endforeach; ?>
+            <?php foreach (get_stores() as $the_store) : ?>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="customer_store[]" value="<?php echo $the_store['store_id']; ?>" <?php echo $the_store['store_id'] == store_id() ? ' checked' : null; ?>>
+                  <?php echo $the_store['name']; ?>
+                </label>
+              </div>
+            <?php endforeach; ?>
           </div>
         </div>
       </div>
@@ -180,7 +182,7 @@
         <?php echo trans('label_status'); ?>
       </label>
       <div class="col-sm-7">
-        <select id="status" class="form-control" name="status" >
+        <select id="status" class="form-control" name="status">
           <option <?php echo isset($request->post['status']) && $request->post['status'] == '1' ? 'selected' : null; ?> value="1">
             <?php echo trans('text_active'); ?>
           </option>
@@ -206,7 +208,7 @@
         <button class="btn btn-info" id="create-customer-submit" type="submit" name="create-customer-submit" data-form="#create-customer-form" data-loading-text="Saving...">
           <span class="fa fa-fw fa-save"></span>
           <?php echo trans('button_save'); ?>
-        </button> 
+        </button>
         <button type="reset" class="btn btn-danger" id="reset" name="reset"><span class="fa fa-fw fa-circle-o"></span>
           <?php echo trans('button_reset'); ?>
         </button>
