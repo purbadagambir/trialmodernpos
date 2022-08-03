@@ -286,6 +286,21 @@ function (
     // End datatable
     //================
 	
+    //Option customer
+    $scope.customers = "";
+    $http({
+        url: API_URL + "/_inc/pos.php?&action_type=CUSTOMEROPTION",
+        method: "GET",
+        cache: false,
+        processData: false,
+        contentType: false,
+        dataType: "json"
+    }).then(function successCallback(response) {
+        $scope.customers = response.data;
+    }, function errorCallback(response) {
+        $scope.customers.push('');
+    });
+
     // Create customer
     $(document).delegate("#create-customer-submit", "click", function(e) {
         e.preventDefault();

@@ -54,6 +54,28 @@ if ($request->server['REQUEST_METHOD'] == 'GET' && isset($request->get['action_t
 	}
 }
 
+
+// Fetch customer option
+if ($request->server['REQUEST_METHOD'] == 'GET' && isset($request->get['action_type']) && $request->get['action_type'] == 'CUSTOMEROPTION') {
+	try {
+
+		$statement = db()->prepare("SELECT customer_id, customer_name, customer_mobile FROM `customers` LIMIT 10");
+		$statement->execute();
+		$the_customer = $statement->fetchAll(PDO::FETCH_ASSOC);
+		$customer = $the_customer ? $the_customer : array();
+
+		header('Content-Type: application/json');
+		echo json_encode($customer);
+		exit();
+	} catch (Exception $e) {
+
+		header('HTTP/1.1 422 Unprocessable Entity');
+		header('Content-Type: application/json; charset=UTF-8');
+		echo json_encode(array('errorMsg' => $e->getMessage()));
+		exit();
+	}
+}
+
 // Fetch customer list
 if ($request->server['REQUEST_METHOD'] == 'GET' && isset($request->get['action_type']) && $request->get['action_type'] == 'CUSTOMERLIST') {
 	try {
