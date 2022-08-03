@@ -52,3 +52,13 @@ function get_profit_amount($from=null, $to=null, $store_id=null)
 	$payment_model = registry()->get('loader')->model('payment');
 	return $payment_model->getProfitAmount($from, $to, $store_id);
 }
+function get_total_point($from=null, $to=null, $store_id=null) 
+{	
+	$income_model = registry()->get('loader')->model('income');
+	return $income_model->getTotalPoint($from, $to, $store_id);
+}
+function get_total_credit($from=null, $to=null, $store_id=null) 
+{	
+	$income_model = registry()->get('loader')->model('income');
+	return $income_model->getTotalcredit($from, $to, $store_id);
+}
